@@ -38,16 +38,16 @@ export default function Footer() {
       {/* Main Footer Links */}
       <div className="footer-main">
         <div className="footer-col brand-col">
-          <span className="footer-logo">RAFAA</span>
+          <span className="footer-logo">TK FASHION</span>
           <p className="footer-desc">
             TK Fashion Collection brings you genuine Pakistani suits, bridal formals, chikankari anarkalis, and handcrafted festive wear for Eid 2026.
           </p>
           <div className="footer-contact">
             <div className="contact-row">
-              <Phone size={15} /> <span>+91 98765 43210</span>
+              <Phone size={15} /> <span>+91 9969454909</span>
             </div>
             <div className="contact-row">
-              <Mail size={15} /> <span>support@rafacollection.com</span>
+              <Mail size={15} /> <span>support@tkfashioncollection.com</span>
             </div>
           </div>
         </div>
@@ -75,20 +75,11 @@ export default function Footer() {
             <li><a href="#contact">Contact Us / WhatsApp Support</a></li>
           </ul>
         </div>
-
-        <div className="footer-col newsletter-col">
-          <h4 className="footer-col-title">JOIN RAFAA PRIVILEGE</h4>
-          <p>Subscribe to receive exclusive Eid 2026 preview launches and private discounts.</p>
-          <form className="newsletter-form" onSubmit={(e) => { e.preventDefault(); alert('Thank you for subscribing to RAFAA!'); }}>
-            <input type="email" placeholder="Enter your email address" required />
-            <button type="submit">SUBSCRIBE</button>
-          </form>
-        </div>
       </div>
 
       {/* Bottom Copyright */}
       <div className="footer-bottom">
-        <p>© 2026 RAFAA / TK Fashion Collection. All Rights Reserved.</p>
+        <p>© 2026 TK Fashion Collection. All Rights Reserved.</p>
         <p className="footer-bottom-links">
           <a href="#privacy">Privacy Policy</a> • <a href="#terms">Terms of Service</a> • <a href="#refund">Refund Policy</a>
         </p>

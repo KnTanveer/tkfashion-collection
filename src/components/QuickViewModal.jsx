@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Star, Heart, ShoppingBag, Check, MapPin } from 'lucide-react';
+import { X, Heart, ShoppingBag, Check, MapPin } from 'lucide-react';
 
 export default function QuickViewModal({
   product,
@@ -11,7 +11,6 @@ export default function QuickViewModal({
 }) {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState('L');
-  const [quantity, setQuantity] = useState(1);
   const [pincode, setPincode] = useState('');
   const [pincodeStatus, setPincodeStatus] = useState(null);
   const [isAdded, setIsAdded] = useState(false);
@@ -87,22 +86,6 @@ export default function QuickViewModal({
             <h2 className="quickview-title">{product.title}</h2>
             <p className="quickview-subtitle">{product.subtitle}</p>
 
-            {/* Ratings */}
-            <div className="quickview-rating-row">
-              <div className="stars-wrapper">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    size={14}
-                    className={i < Math.floor(product.rating) ? 'star-filled' : 'star-empty'}
-                  />
-                ))}
-              </div>
-              <span className="rating-text">
-                {product.rating} ({product.reviewsCount} verified reviews)
-              </span>
-            </div>
-
             {/* Price */}
             <div className="quickview-price-row">
               <span className="current-price">₹{product.price.toLocaleString()}</span>
@@ -117,8 +100,7 @@ export default function QuickViewModal({
             {/* Size Selector */}
             <div className="quickview-option-group">
               <div className="option-header">
-                <span className="option-label">Select Size:</span>
-                <span className="size-guide-link">Size Guide</span>
+                <span className="option-label">Size Available:</span>
               </div>
               <div className="sizes-selector-grid">
                 {product.sizes.map((size) => (
@@ -130,27 +112,6 @@ export default function QuickViewModal({
                     {size}
                   </button>
                 ))}
-              </div>
-            </div>
-
-            {/* Quantity Selector */}
-            <div className="quickview-option-group">
-              <span className="option-label">Quantity:</span>
-              <div className="quantity-controls modal-qty">
-                <button
-                  className="qty-btn"
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  disabled={quantity <= 1}
-                >
-                  -
-                </button>
-                <span className="qty-value">{quantity}</span>
-                <button
-                  className="qty-btn"
-                  onClick={() => setQuantity(quantity + 1)}
-                >
-                  +
-                </button>
               </div>
             </div>
 

@@ -1,36 +1,17 @@
 import { useState } from 'react';
-import { Heart, Eye, ShoppingBag, Check, Star } from 'lucide-react';
+import { Heart, Eye } from 'lucide-react';
 
 export default function ProductCard({
   product,
   isWishlisted,
   onToggleWishlist,
-  onOpenQuickView,
-  onAddToCart
+  onOpenQuickView
 }) {
   const [selectedSize, setSelectedSize] = useState(product.sizes[0] || 'L');
-  const [isAdded, setIsAdded] = useState(false);
-
-  const handleQuickAdd = (e) => {
-    e.stopPropagation();
-    onAddToCart(product, selectedSize, 1);
-    setIsAdded(true);
-    setTimeout(() => setIsAdded(false), 1500);
-  };
 
   return (
     <div className="product-card" onClick={() => onOpenQuickView(product)}>
       <div className="product-image-container">
-        {/* Product Badges */}
-        <div className="product-badges">
-          {product.discount && (
-            <span className="badge-discount">{product.discount}</span>
-          )}
-          {product.isBestSeller && (
-            <span className="badge-bestseller">BESTSELLER</span>
-          )}
-        </div>
-
         {/* Wishlist Button */}
         <button
           className={`card-wishlist-btn ${isWishlisted ? 'active' : ''}`}
@@ -67,19 +48,6 @@ export default function ProductCard({
 
       {/* Product Details */}
       <div className="product-info">
-        {/* Rating Stars */}
-        <div className="product-rating-row">
-          <div className="stars-wrapper">
-            {[...Array(5)].map((_, i) => (
-              <Star
-                key={i}
-                size={12}
-                className={i < Math.floor(product.rating) ? 'star-filled' : 'star-empty'}
-              />
-            ))}
-          </div>
-          <span className="rating-number">({product.reviewsCount})</span>
-        </div>
 
         {/* Product Title */}
         <h3 className="product-title" title={product.title}>
@@ -110,21 +78,6 @@ export default function ProductCard({
               <span className="more-sizes-hint">+{product.sizes.length - 4}</span>
             )}
           </div>
-
-          <button
-            className={`card-add-to-cart-btn ${isAdded ? 'added' : ''}`}
-            onClick={handleQuickAdd}
-          >
-            {isAdded ? (
-              <>
-                <Check size={14} /> Added
-              </>
-            ) : (
-              <>
-                <ShoppingBag size={14} /> Add to Bag
-              </>
-            )}
-          </button>
         </div>
       </div>
     </div>

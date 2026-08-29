@@ -1,17 +1,13 @@
 import { useState } from 'react';
-import { Search, User, ShoppingBag, ChevronDown, Menu, X, Heart } from 'lucide-react';
+import { Search, ChevronDown, Menu, X, Heart } from 'lucide-react';
 import { CATEGORIES_NAV } from '../data/products';
-import LiveSalesToast from './LiveSalesToast';
 
 export default function Header({
-  cartCount,
   wishlistCount,
-  onOpenCart,
   onOpenWishlist,
   onOpenSearch,
   activeCategory,
   onSelectCategory,
-  onOpenAccountModal
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
@@ -43,27 +39,13 @@ export default function Header({
         {/* Center: Brand Logo */}
         <div className="header-center">
           <a href="#" className="brand-logo" onClick={(e) => { e.preventDefault(); onSelectCategory('eid-2026'); }}>
-            <span className="brand-title">RAFAA</span>
-            <span className="brand-subtitle">TK FASHION COLLECTION</span>
+            <span className="brand-title">TK FASHION</span>
+            <span className="brand-subtitle">COLLECTION</span>
           </a>
         </div>
 
         {/* Right: Social proof ticker, Account, Wishlist & Cart */}
         <div className="header-right">
-          {/* Real-time Sales Toast in Header (matching screenshot) */}
-          <div className="header-toast-container">
-            <LiveSalesToast />
-          </div>
-
-          <button
-            className="header-icon-btn account-btn"
-            onClick={onOpenAccountModal}
-            aria-label="Account"
-            title="My Account"
-          >
-            <User size={22} strokeWidth={1.75} />
-          </button>
-
           <button
             className="header-icon-btn mobile-wishlist-btn"
             onClick={onOpenWishlist}
@@ -72,16 +54,6 @@ export default function Header({
           >
             <Heart size={22} strokeWidth={1.75} />
             {wishlistCount > 0 && <span className="icon-badge">{wishlistCount}</span>}
-          </button>
-
-          <button
-            className="header-icon-btn cart-btn"
-            onClick={onOpenCart}
-            aria-label="Shopping Bag"
-            title="Shopping Cart"
-          >
-            <ShoppingBag size={22} strokeWidth={1.75} />
-            {cartCount > 0 && <span className="icon-badge">{cartCount}</span>}
           </button>
         </div>
       </div>

@@ -1,17 +1,13 @@
 import { useState, useMemo } from 'react';
 import './App.css';
 import { PRODUCTS_DATA } from './data/products';
-import AnnouncementBar from './components/AnnouncementBar';
 import Header from './components/Header';
 import SidebarFilter from './components/SidebarFilter';
 import ProductGrid from './components/ProductGrid';
-import CartDrawer from './components/CartDrawer';
 import WishlistDrawer from './components/WishlistDrawer';
 import QuickViewModal from './components/QuickViewModal';
-import ReviewsDrawer from './components/ReviewsDrawer';
 import FloatingWidgets from './components/FloatingWidgets';
 import SearchModal from './components/SearchModal';
-import AccountModal from './components/AccountModal';
 import Footer from './components/Footer';
 
 function App() {
@@ -25,22 +21,12 @@ function App() {
   const [priceRange, setPriceRange] = useState(6000);
   const [sortBy, setSortBy] = useState('date-new-old');
 
-  // Cart & Wishlist States
-  const [cart, setCart] = useState([
-    {
-      product: PRODUCTS_DATA[0],
-      size: 'XL',
-      quantity: 1
-    }
-  ]);
+  // Wishlist States
   const [wishlist, setWishlist] = useState([1, 2, 5]); // Pre-loaded wishlist items for realistic preview
 
   // Drawer / Modal Visibility States
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
-  const [isReviewsOpen, setIsReviewsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isAccountOpen, setIsAccountOpen] = useState(false);
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
 
@@ -68,43 +54,6 @@ function App() {
     setSelectedFabrics([]);
     setSelectedColors([]);
     setPriceRange(6000);
-  };
-
-  // Cart Handlers
-  const handleAddToCart = (product, size = 'L', quantity = 1) => {
-    setCart((prev) => {
-      const existingIdx = prev.findIndex(
-        (item) => item.product.id === product.id && item.size === size
-      );
-      if (existingIdx > -1) {
-        const updated = [...prev];
-        updated[existingIdx].quantity += quantity;
-        return updated;
-      } else {
-        return [...prev, { product, size, quantity }];
-      }
-    });
-  };
-
-  const handleUpdateQuantity = (productId, size, newQty) => {
-    if (newQty < 1) return;
-    setCart((prev) =>
-      prev.map((item) =>
-        item.product.id === productId && item.size === size
-          ? { ...item, quantity: newQty }
-          : item
-      )
-    );
-  };
-
-  const handleRemoveFromCart = (productId, size) => {
-    setCart((prev) =>
-      prev.filter((item) => !(item.product.id === productId && item.size === size))
-    );
-  };
-
-  const handleCheckout = () => {
-    alert('Thank you for choosing RAFAA / TK Fashion! Redirecting to secure COD/UPI checkout...');
   };
 
   // Wishlist Handlers
@@ -174,35 +123,15 @@ function App() {
 
   return (
     <div className="app-root">
-      {/* 1. Top Announcement Bar */}
-      <AnnouncementBar />
 
       {/* 2. Site Header & Navigation */}
       <Header
-        cartCount={cart.reduce((sum, i) => sum + i.quantity, 0)}
         wishlistCount={wishlist.length}
-        onOpenCart={() => setIsCartOpen(true)}
         onOpenWishlist={() => setIsWishlistOpen(true)}
         onOpenSearch={() => setIsSearchOpen(true)}
         activeCategory={activeCategory}
         onSelectCategory={(cat) => setActiveCategory(cat)}
-        onOpenAccountModal={() => setIsAccountOpen(true)}
       />
-
-      {/* 3. Breadcrumbs & Collection Title */}
-      <section className="collection-header-section">
-        <nav className="breadcrumbs" aria-label="Breadcrumb">
-          <a href="#home" className="breadcrumb-link" onClick={(e) => { e.preventDefault(); setActiveCategory('home'); }}>
-            Home
-          </a>
-          <span className="breadcrumb-separator">/</span>
-          <a href="#collections" className="breadcrumb-link" onClick={(e) => { e.preventDefault(); setActiveCategory('eid-2026'); }}>
-            Collections
-          </a>
-          <span className="breadcrumb-separator">/</span>
-        </nav>
-        <h1 className="collection-title">EID 2026</h1>
-      </section>
 
       {/* 4. Main Catalog Section (2-Column Layout) */}
       <div className="catalog-page-container">
@@ -237,7 +166,6 @@ function App() {
             wishlistIds={wishlist}
             onToggleWishlist={handleToggleWishlist}
             onOpenQuickView={(p) => setQuickViewProduct(p)}
-            onAddToCart={handleAddToCart}
             onOpenMobileFilters={() => setIsMobileFiltersOpen(true)}
             onClearFilters={handleClearAllFilters}
           />
@@ -251,17 +179,6 @@ function App() {
       <FloatingWidgets
         wishlistCount={wishlist.length}
         onOpenWishlist={() => setIsWishlistOpen(true)}
-        onOpenReviews={() => setIsReviewsOpen(true)}
-      />
-
-      {/* 7. Drawers & Modals */}
-      <CartDrawer
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        items={cart}
-        onUpdateQuantity={handleUpdateQuantity}
-        onRemoveItem={handleRemoveFromCart}
-        onCheckout={handleCheckout}
       />
 
       <WishlistDrawer
@@ -269,12 +186,6 @@ function App() {
         onClose={() => setIsWishlistOpen(false)}
         wishlistProducts={wishlistedProducts}
         onRemoveFromWishlist={handleRemoveFromWishlist}
-        onAddToCart={handleAddToCart}
-      />
-
-      <ReviewsDrawer
-        isOpen={isReviewsOpen}
-        onClose={() => setIsReviewsOpen(false)}
       />
 
       <QuickViewModal
@@ -283,7 +194,6 @@ function App() {
         onClose={() => setQuickViewProduct(null)}
         isWishlisted={quickViewProduct ? wishlist.includes(quickViewProduct.id) : false}
         onToggleWishlist={handleToggleWishlist}
-        onAddToCart={handleAddToCart}
       />
 
       <SearchModal
@@ -292,11 +202,6 @@ function App() {
         onSelectProduct={(product) => {
           setQuickViewProduct(product);
         }}
-      />
-
-      <AccountModal
-        isOpen={isAccountOpen}
-        onClose={() => setIsAccountOpen(false)}
       />
     </div>
   );
