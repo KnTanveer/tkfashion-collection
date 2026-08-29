@@ -2,13 +2,13 @@ import { useState, useMemo } from 'react';
 import './App.css';
 import { PRODUCTS_DATA } from './data/products';
 import Header from './components/Header';
-import SidebarFilter from './components/SidebarFilter';
 import ProductGrid from './components/ProductGrid';
 import WishlistDrawer from './components/WishlistDrawer';
 import QuickViewModal from './components/QuickViewModal';
 import FloatingWidgets from './components/FloatingWidgets';
 import SearchModal from './components/SearchModal';
 import Footer from './components/Footer';
+import Hero from './components/Hero.jsx';
 
 function App() {
   // Navigation & Category State
@@ -27,27 +27,9 @@ function App() {
   // Drawer / Modal Visibility States
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
 
   // Toggle Filters
-  const handleToggleSize = (size) => {
-    setSelectedSizes((prev) =>
-      prev.includes(size) ? prev.filter((s) => s !== size) : [...prev, size]
-    );
-  };
-
-  const handleToggleFabric = (fabric) => {
-    setSelectedFabrics((prev) =>
-      prev.includes(fabric) ? prev.filter((f) => f !== fabric) : [...prev, fabric]
-    );
-  };
-
-  const handleToggleColor = (color) => {
-    setSelectedColors((prev) =>
-      prev.includes(color) ? prev.filter((c) => c !== color) : [...prev, color]
-    );
-  };
 
   const handleClearAllFilters = () => {
     setSelectedSizes([]);
@@ -133,29 +115,10 @@ function App() {
         onSelectCategory={(cat) => setActiveCategory(cat)}
       />
 
+      <Hero/>
       {/* 4. Main Catalog Section (2-Column Layout) */}
       <div className="catalog-page-container">
         <div className="catalog-layout">
-          {/* Left Column: Sidebar Filters */}
-          <div className={isMobileFiltersOpen ? 'sidebar-filter mobile-drawer-open' : ''}>
-            {isMobileFiltersOpen && (
-              <div className="mobile-filter-header" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
-                <strong style={{ fontSize: '16px' }}>Filters</strong>
-                <button onClick={() => setIsMobileFiltersOpen(false)} style={{ fontSize: '14px', fontWeight: 'bold' }}>✕ Close</button>
-              </div>
-            )}
-            <SidebarFilter
-              selectedSizes={selectedSizes}
-              onToggleSize={handleToggleSize}
-              selectedFabrics={selectedFabrics}
-              onToggleFabric={handleToggleFabric}
-              selectedColors={selectedColors}
-              onToggleColor={handleToggleColor}
-              priceRange={priceRange}
-              onChangePriceRange={setPriceRange}
-              onClearAllFilters={handleClearAllFilters}
-            />
-          </div>
 
           {/* Right Column: Products Grid */}
           <ProductGrid
