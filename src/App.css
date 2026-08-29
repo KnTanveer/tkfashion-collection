@@ -115,9 +115,11 @@
   font-family: var(--font-serif);
   font-size: 32px;
   font-weight: 700;
-  letter-spacing: 0.22em;
   color: #111111;
   line-height: 1;
+
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .brand-subtitle {
@@ -2477,7 +2479,7 @@
     padding: 10px 16px;
   }
   .brand-title {
-    font-size: 24px;
+    font-size: 20px;
   }
   .catalog-page-container {
     padding: 0 12px 60px 12px;

@@ -25,15 +25,6 @@ export default function Header({
           >
             <Menu size={22} />
           </button>
-
-          <button
-            className="header-icon-btn search-btn"
-            onClick={onOpenSearch}
-            aria-label="Search"
-          >
-            <Search size={22} strokeWidth={1.75} />
-            <span className="search-hint-text">Search Pakistani suits, kurtis...</span>
-          </button>
         </div>
 
         {/* Center: Brand Logo */}
@@ -44,8 +35,17 @@ export default function Header({
           </a>
         </div>
 
-        {/* Right: Social proof ticker, Account, Wishlist & Cart */}
+        {/* Right: Wishlist & Search */}
         <div className="header-right">
+          <button
+            className="header-icon-btn search-btn"
+            onClick={onOpenSearch}
+            aria-label="Search"
+          >
+            <Search size={22} strokeWidth={1.75} />
+            <span className="search-hint-text">Search Pakistani suits, kurtis...</span>
+          </button>
+
           <button
             className="header-icon-btn mobile-wishlist-btn"
             onClick={onOpenWishlist}
@@ -159,7 +159,7 @@ export default function Header({
         <div className="mobile-nav-backdrop" onClick={() => setMobileMenuOpen(false)}>
           <div className="mobile-nav-drawer" onClick={(e) => e.stopPropagation()}>
             <div className="mobile-nav-header">
-              <span className="brand-title">RAFAA</span>
+              <span className="brand-title">TK FASHION</span>
               <button
                 className="close-drawer-btn"
                 onClick={() => setMobileMenuOpen(false)}
