@@ -1,4 +1,6 @@
-/* Hero section */
+/* =========================
+   Hero Section
+========================= */
 
 .hero {
     width: 100%;
@@ -16,32 +18,38 @@
     max-width: 1400px;
     margin: 0 auto;
 
-    padding: 110px 90px 90px;
+    /* Scales with viewport */
+    padding: clamp(60px, 7vw, 110px)
+             clamp(30px, 6.4vw, 90px)
+             clamp(50px, 6vw, 90px);
 
     box-sizing: border-box;
 }
 
-/* -------------------------
+
+/* =========================
    Eyebrow
-------------------------- */
+========================= */
 
 .hero-eyebrow {
     display: flex;
     align-items: center;
-    gap: 24px;
 
-    margin-bottom: 58px;
+    gap: clamp(12px, 1.7vw, 24px);
+
+    margin-bottom: clamp(20px, 2.1vw, 30px);
 
     color: #bd9952;
 
     font-family: Arial, sans-serif;
-    font-size: 15px;
+    font-size: clamp(10px, 1.05vw, 15px);
     font-weight: 500;
-    letter-spacing: 0.32em;
+
+    letter-spacing: clamp(0.15em, 0.32vw, 0.32em);
 }
 
 .eyebrow-line {
-    width: 77px;
+    width: clamp(40px, 5.5vw, 77px);
     height: 1px;
 
     background: #bd9952;
@@ -49,69 +57,95 @@
     flex-shrink: 0;
 }
 
-/* -------------------------
+
+/* =========================
    Heading
-------------------------- */
+========================= */
 
 .hero-title {
     margin: 0;
 
     color: #1d1d1d;
 
-    font-family: var(--font-serif, Georgia, "Times New Roman", serif);
-    font-size: clamp(64px, 5.5vw, 92px);
+    font-family: var(
+        --font-serif,
+        Georgia,
+        "Times New Roman",
+        serif
+    );
+
+    /*
+       64px minimum
+       6.5vw scales with window
+       92px maximum
+    */
+    font-size: clamp(64px, 6.5vw, 92px);
+
     font-weight: 600;
+
     line-height: 0.97;
-    letter-spacing: -0.035em;
+
+    letter-spacing: clamp(-0.04em, -0.25vw, -0.035em);
 }
 
 .hero-title em {
     color: #bd9952;
+
     font-style: italic;
     font-weight: 500;
 }
 
-/* -------------------------
+
+/* =========================
    Description
-------------------------- */
+========================= */
 
 .hero-description {
-    margin: 58px 0 0;
+    margin: clamp(20px, 2.1vw, 30px) 0 0;
 
     color: #737373;
 
     font-family: Arial, sans-serif;
-    font-size: 30px;
+
+    font-size: clamp(18px, 2.1vw, 30px);
+
     font-weight: 400;
+
     line-height: 1.55;
+
     letter-spacing: -0.02em;
 }
 
-/* -------------------------
+
+/* =========================
    Buttons
-------------------------- */
+========================= */
 
 .hero-buttons {
     display: flex;
     align-items: center;
-    gap: 30px;
 
-    margin-top: 78px;
+    gap: clamp(15px, 2vw, 30px);
+
+    margin-top: clamp(35px, 3.5vw, 50px);
 }
 
 .hero-btn {
-    height: 94px;
+    height: clamp(55px, 5.7vw, 80px);
 
-    padding: 0 60px;
+    padding: 0 clamp(25px, 4.2vw, 60px);
 
     display: flex;
     align-items: center;
     justify-content: center;
 
     font-family: Arial, sans-serif;
-    font-size: 17px;
+
+    font-size: clamp(11px, 1.2vw, 17px);
+
     font-weight: 500;
-    letter-spacing: 0.25em;
+
+    letter-spacing: clamp(0.12em, 0.25vw, 0.25em);
 
     cursor: pointer;
 
@@ -119,34 +153,61 @@
         background-color 0.25s ease,
         color 0.25s ease,
         transform 0.25s ease;
+
+    box-sizing: border-box;
 }
+
+
+/* Primary button */
 
 .hero-btn-primary {
-    width: 455px;
+    /*
+       455px max
+       but scales down with viewport
+    */
+    width: clamp(280px, 32.5vw, 455px);
 
     border: 1px solid #202020;
+
     background: #202020;
+
     color: #ffffff;
 
-    gap: 35px;
+    gap: clamp(15px, 2.5vw, 35px);
 }
 
+
+/* Secondary button */
+
 .hero-btn-secondary {
-    width: 347px;
+    width: clamp(230px, 24.8vw, 347px);
 
     border: 1px solid #202020;
+
     background: #ffffff;
+
     color: #202020;
 }
 
+
+/* Arrow */
+
 .arrow {
     font-family: Arial, sans-serif;
-    font-size: 34px;
+
+    font-size: clamp(22px, 2.4vw, 34px);
+
     font-weight: 300;
+
     line-height: 1;
 
     margin-top: -4px;
 }
+
+
+/* =========================
+   Hover
+========================= */
 
 .hero-btn:hover {
     transform: translateY(-2px);
@@ -161,70 +222,81 @@
     color: #ffffff;
 }
 
-/* -------------------------
+
+/* =========================
    Tablet
-------------------------- */
+========================= */
 
 @media (max-width: 900px) {
+
     .hero-content {
-        padding: 90px 50px 70px;
+        padding:
+            clamp(50px, 9vw, 90px)
+            clamp(30px, 5.5vw, 50px)
+            clamp(50px, 7vw, 70px);
     }
 
     .hero-title {
-        font-size: clamp(58px, 9vw, 80px);
+        font-size: clamp(52px, 9vw, 80px);
     }
 
     .hero-description {
-        font-size: 24px;
+        font-size: clamp(18px, 3vw, 24px);
     }
 
     .hero-buttons {
-        gap: 18px;
+        gap: 15px;
     }
 
     .hero-btn-primary {
-        width: 380px;
+        width: clamp(280px, 42vw, 380px);
     }
 
     .hero-btn-secondary {
-        width: 300px;
+        width: clamp(220px, 33vw, 300px);
     }
 }
 
-/* -------------------------
+
+/* =========================
    Mobile
-------------------------- */
+========================= */
 
 @media (max-width: 600px) {
+
     .hero {
         min-height: auto;
     }
 
     .hero-content {
-        padding: 70px 24px 60px;
+        padding: 60px 24px;
     }
 
     .hero-eyebrow {
-        gap: 14px;
-        margin-bottom: 40px;
+        gap: 12px;
 
-        font-size: 11px;
-        letter-spacing: 0.22em;
+        margin-bottom: 20px;
+
+        font-size: 10px;
+
+        letter-spacing: 0.2em;
     }
 
     .eyebrow-line {
-        width: 45px;
+        width: 40px;
     }
 
     .hero-title {
-        font-size: clamp(52px, 15vw, 72px);
+        font-size: clamp(48px, 15vw, 72px);
+
         line-height: 0.98;
     }
 
     .hero-description {
-        margin-top: 40px;
+        margin-top: 20px;
 
-        font-size: 19px;
+        font-size: clamp(17px, 5vw, 19px);
+
         line-height: 1.5;
     }
 
@@ -236,18 +308,21 @@
         flex-direction: column;
         align-items: stretch;
 
-        gap: 14px;
-        margin-top: 50px;
+        gap: 12px;
+
+        margin-top: 45px;
     }
 
     .hero-btn-primary,
     .hero-btn-secondary {
         width: 100%;
-        height: 70px;
 
-        padding: 0 25px;
+        height: clamp(55px, 15vw, 60px);
 
-        font-size: 13px;
-        letter-spacing: 0.2em;
+        padding: 0 20px;
+
+        font-size: 12px;
+
+        letter-spacing: 0.18em;
     }
 }

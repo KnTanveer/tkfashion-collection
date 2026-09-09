@@ -55,9 +55,9 @@ export default function ProductGrid({
         <div className="products-grid-container">
           {products.map((product) => (
             <ProductCard
-              key={product.id}
+              key={product._id}
               product={product}
-              isWishlisted={wishlistIds.includes(product.id)}
+              isWishlisted={wishlistIds?.includes(product._id)}
               onToggleWishlist={onToggleWishlist}
               onOpenQuickView={onOpenQuickView}
               onAddToCart={onAddToCart}

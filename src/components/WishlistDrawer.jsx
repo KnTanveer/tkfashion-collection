@@ -15,7 +15,7 @@ export default function WishlistDrawer({
         {/* Wishlist Header */}
         <div className="drawer-header">
           <div className="drawer-title-row">
-            <Heart size={20} fill="#c5a880" color="#c5a880" />
+            <Heart size={20} fill="#b89a5a" color="#b89a5a" />
             <h2 className="drawer-title">My Wishlist ({wishlistProducts.length})</h2>
           </div>
           <button className="drawer-close-btn" onClick={onClose} aria-label="Close wishlist">

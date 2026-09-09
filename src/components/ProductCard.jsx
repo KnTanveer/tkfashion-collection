@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Heart, Eye } from 'lucide-react';
 
 export default function ProductCard({
@@ -7,7 +6,6 @@ export default function ProductCard({
   onToggleWishlist,
   onOpenQuickView
 }) {
-  const [selectedSize, setSelectedSize] = useState(product.sizes[0] || 'L');
 
   return (
     <div className="product-card" onClick={() => onOpenQuickView(product)}>
@@ -60,24 +58,6 @@ export default function ProductCard({
           {product.originalPrice && (
             <span className="original-price">₹{product.originalPrice.toLocaleString()}</span>
           )}
-        </div>
-
-        {/* Quick Size Selection & Add to Cart button */}
-        <div className="product-card-actions" onClick={(e) => e.stopPropagation()}>
-          <div className="quick-sizes-row">
-            {product.sizes.slice(0, 4).map((size) => (
-              <button
-                key={size}
-                className={`quick-size-pill ${selectedSize === size ? 'selected' : ''}`}
-                onClick={() => setSelectedSize(size)}
-              >
-                {size}
-              </button>
-            ))}
-            {product.sizes.length > 4 && (
-              <span className="more-sizes-hint">+{product.sizes.length - 4}</span>
-            )}
-          </div>
         </div>
       </div>
     </div>

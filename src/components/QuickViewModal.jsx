@@ -10,7 +10,6 @@ export default function QuickViewModal({
   onAddToCart
 }) {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const [selectedSize, setSelectedSize] = useState('L');
   const [pincode, setPincode] = useState('');
   const [pincodeStatus, setPincodeStatus] = useState(null);
   const [isAdded, setIsAdded] = useState(false);
@@ -18,7 +17,6 @@ export default function QuickViewModal({
   if (!isOpen || !product) return null;
 
   const images = product.images && product.images.length > 0 ? product.images : [product.image];
-  const currentSize = selectedSize || product.sizes[0] || 'L';
 
   const handleCheckPincode = (e) => {
     e.preventDefault();
@@ -36,7 +34,7 @@ export default function QuickViewModal({
   };
 
   const handleAddToCart = () => {
-    onAddToCart(product, currentSize, quantity);
+    onAddToCart(product);
     setIsAdded(true);
     setTimeout(() => {
       setIsAdded(false);
@@ -97,24 +95,6 @@ export default function QuickViewModal({
 
             <p className="quickview-description">{product.description}</p>
 
-            {/* Size Selector */}
-            <div className="quickview-option-group">
-              <div className="option-header">
-                <span className="option-label">Size Available:</span>
-              </div>
-              <div className="sizes-selector-grid">
-                {product.sizes.map((size) => (
-                  <button
-                    key={size}
-                    className={`size-choice-btn ${currentSize === size ? 'selected' : ''}`}
-                    onClick={() => setSelectedSize(size)}
-                  >
-                    {size}
-                  </button>
-                ))}
-              </div>
-            </div>
-
             {/* Add to Cart & Wishlist Actions */}
             <div className="quickview-action-buttons">
               <button
@@ -127,7 +107,7 @@ export default function QuickViewModal({
                   </>
                 ) : (
                   <>
-                    <ShoppingBag size={18} /> Add to Bag • ₹{(product.price * quantity).toLocaleString()}
+                    <ShoppingBag size={18} /> Add to Bag • ₹{(product.price).toLocaleString()}
                   </>
                 )}
               </button>

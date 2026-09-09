@@ -1,6 +1,7 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import './App.css';
 import { PRODUCTS_DATA } from './data/products';
+import { getProducts } from './api.js';
 import Header from './components/Header';
 import ProductGrid from './components/ProductGrid';
 import WishlistDrawer from './components/WishlistDrawer';
@@ -50,6 +51,17 @@ function App() {
   const handleRemoveFromWishlist = (productId) => {
     setWishlist((prev) => prev.filter((id) => id !== productId));
   };
+
+  // Fetch products
+
+  const [productsData, setProductsData] = useState([]) 
+  useEffect(() => {
+        async function loadAllProducts() {
+            const data = await getProducts()
+            setProductsData(data)
+        }
+        loadAllProducts()
+    }, [])
 
   // Filtered & Sorted Products
   const filteredProducts = useMemo(() => {
@@ -121,15 +133,21 @@ function App() {
         <div className="catalog-layout">
 
           {/* Right Column: Products Grid */}
-          <ProductGrid
-            products={filteredProducts}
+          {/* <ProductGrid
+            products={PRODUCTS_DATA}
             totalDisplayCount={displayCount}
             sortBy={sortBy}
             onChangeSort={setSortBy}
             wishlistIds={wishlist}
             onToggleWishlist={handleToggleWishlist}
             onOpenQuickView={(p) => setQuickViewProduct(p)}
-            onOpenMobileFilters={() => setIsMobileFiltersOpen(true)}
+            onClearFilters={handleClearAllFilters}
+          /> */}
+
+          <ProductGrid
+            products={productsData}
+            onToggleWishlist={handleToggleWishlist}
+            onOpenQuickView={(p) => setQuickViewProduct(p)}
             onClearFilters={handleClearAllFilters}
           />
         </div>
