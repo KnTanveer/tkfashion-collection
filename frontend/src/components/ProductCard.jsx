@@ -23,7 +23,7 @@ export default function ProductCard({
 
         {/* Product Main Image */}
         <img
-          src={product.image}
+          src={product.variants?.[0]?.images?.[0]}
           alt={product.title}
           className="product-image"
           loading="lazy"

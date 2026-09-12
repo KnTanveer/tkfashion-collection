@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { Search, X, ArrowRight } from 'lucide-react';
-import { PRODUCTS_DATA } from '../data/products';
 
 export default function SearchModal({
   isOpen,

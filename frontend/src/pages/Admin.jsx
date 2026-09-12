@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import './Admin.css';
+import "./Admin.css";
 
-// const API_URL = "http://localhost:5001/api/products";
 const URL = import.meta.env.VITE_API_URL;
-const API_URL = URL + '/api/products';
+const API_URL = URL + "/api/products";
 
 function Admin() {
     const [products, setProducts] = useState([]);
@@ -12,20 +11,66 @@ function Admin() {
     const [price, setPrice] = useState("");
     const [category, setCategory] = useState("");
     const [size, setSize] = useState("");
-    const [image, setImage] = useState(null);
+
+    const [variants, setVariants] = useState([
+        {
+            color: "",
+            colorCode: "#000000",
+            images: []
+        }
+    ]);
 
     const [editingId, setEditingId] = useState(null);
     const [loading, setLoading] = useState(false);
+
+    // Color
+    const addVariant = () => {
+        setVariants([
+            ...variants,
+            {
+                color: "",
+                colorCode: "#000000",
+                images: []
+            }
+        ]);
+    };
+
+    const removeVariant = (index) => {
+        setVariants(
+            variants.filter((_, i) => i !== index)
+        );
+    };
+
+    const updateVariantColor = (index, value) => {
+        const updated = [...variants];
+
+        updated[index].color = value;
+
+        setVariants(updated);
+    };
+
+    const updateVariantColorCode = (index, value) => {
+        const updated = [...variants];
+
+        updated[index].colorCode = value;
+
+        setVariants(updated);
+    };
+
+    const updateVariantImages = (index, files) => {
+        const updated = [...variants];
+
+        updated[index].images = Array.from(files);
+
+        setVariants(updated);
+    };
 
     // GET PRODUCTS
     const fetchProducts = async () => {
         try {
             const response = await fetch(API_URL);
-
             const data = await response.json();
-
             setProducts(data);
-
         } catch (error) {
             console.error("Failed to fetch products", error);
         }
@@ -41,10 +86,16 @@ function Admin() {
         setPrice("");
         setCategory("");
         setSize("");
-        setImage(null);
-        setEditingId(null);
 
-        document.getElementById("imageInput").value = "";
+        setVariants([
+            {
+                color: "",
+                colorCode: "#000000",
+                images: []
+            }
+        ]);
+
+        setEditingId(null);
     };
 
     // SUBMIT
@@ -56,9 +107,21 @@ function Admin() {
             return;
         }
 
-        if (!editingId && !image) {
-            alert("Please select an image");
+        if (variants.length === 0) {
+            alert("Add at least one color");
             return;
+        }
+
+        for (const variant of variants) {
+            if (!variant.color) {
+                alert("Every color needs a name");
+                return;
+            }
+
+            if (variant.images.length === 0) {
+                alert(`Add images for ${variant.color}`);
+                return;
+            }
         }
 
         setLoading(true);
@@ -70,29 +133,44 @@ function Admin() {
         formData.append("category", category);
         formData.append("size", size);
 
-        if (image) {
-            formData.append("image", image);
-        }
+        let imageIndex = 0;
+
+        const variantData = variants.map((variant) => {
+            const imageIndexes = [];
+
+            variant.images.forEach((image) => {
+                formData.append("images", image);
+
+                imageIndexes.push(imageIndex);
+
+                imageIndex++;
+            });
+
+            return {
+                color: variant.color,
+                colorCode: variant.colorCode,
+                imageIndexes
+            };
+        });
+
+        formData.append(
+            "variants",
+            JSON.stringify(variantData)
+        );
 
         try {
             let response;
 
             if (editingId) {
-
-                // UPDATE
                 response = await fetch(`${API_URL}/${editingId}`, {
                     method: "PUT",
                     body: formData
                 });
-
             } else {
-
-                // CREATE
                 response = await fetch(API_URL, {
                     method: "POST",
                     body: formData
                 });
-
             }
 
             if (!response.ok) {
@@ -215,16 +293,99 @@ function Admin() {
                     onChange={(e) => setSize(e.target.value)}
                 />
 
-                <label>
-                    Image
-                </label>
+                <label>Colors & Images</label>
 
-                <input
-                    id="imageInput"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setImage(e.target.files[0])}
-                />
+                <div className="variants-container">
+
+                    {variants.map((variant, index) => (
+                        <div
+                            className="variant-editor"
+                            key={index}
+                        >
+
+                            <div className="variant-header">
+
+                                <h3>
+                                    Color {index + 1}
+                                </h3>
+
+                                {variants.length > 1 && (
+                                    <button
+                                        type="button"
+                                        onClick={() => removeVariant(index)}
+                                    >
+                                        Remove
+                                    </button>
+                                )}
+
+                            </div>
+
+                            <input
+                                type="text"
+                                placeholder="Color name e.g. Black"
+                                value={variant.color}
+                                onChange={(e) =>
+                                    updateVariantColor(
+                                        index,
+                                        e.target.value
+                                    )
+                                }
+                            />
+
+                            <div className="color-input-row">
+
+                                <input
+                                    type="color"
+                                    value={variant.colorCode}
+                                    onChange={(e) =>
+                                        updateVariantColorCode(
+                                            index,
+                                            e.target.value
+                                        )
+                                    }
+                                />
+
+                                <span>
+                                    {variant.colorCode}
+                                </span>
+
+                            </div>
+
+                            <input
+                                type="file"
+                                accept="image/*"
+                                multiple
+                                onChange={(e) =>
+                                    updateVariantImages(
+                                        index,
+                                        e.target.files
+                                    )
+                                }
+                            />
+
+                            {variant.images.length > 0 && (
+                                <div className="variant-preview">
+                                    {variant.images.map((image, imageIndex) => (
+                                        <img
+                                            key={imageIndex}
+                                            src={window.URL.createObjectURL(image)}
+                                            alt=""
+                                        />
+                                    ))}
+                                </div>
+                            )}
+
+                        </div>
+                    ))}
+
+                </div>
+
+                <button
+                    type="button"
+                    onClick={addVariant}
+                >
+                    + Add Color
+                </button>
 
                 <div className="form-buttons">
                     <button
@@ -272,7 +433,7 @@ function Admin() {
                             >
 
                                 <img
-                                    src={product.image}
+                                    src={product.variants?.[0]?.images?.[0]}
                                     alt={product.title}
                                 />
 

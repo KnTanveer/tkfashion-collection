@@ -1,5 +1,29 @@
 import mongoose from "mongoose";
 
+const variantSchema = new mongoose.Schema(
+    {
+        color: {
+            type: String,
+            required: true,
+            trim: true
+        },
+
+        colorCode: {
+            type: String,
+            required: true,
+            trim: true
+        },
+
+        images: {
+            type: [String],
+            required: true
+        }
+    },
+    {
+        _id: false
+    }
+);
+
 const productSchema = new mongoose.Schema(
     {
         title: {
@@ -25,8 +49,8 @@ const productSchema = new mongoose.Schema(
             trim: true
         },
 
-        image: {
-            type: String,
+        variants: {
+            type: [variantSchema],
             required: true
         }
     },

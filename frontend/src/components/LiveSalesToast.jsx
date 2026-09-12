@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
-import { LIVE_SALES_NOTIFICATIONS } from '../data/products';
 
 export default function LiveSalesToast({ isVisible = true }) {
   const [currentIndex, setCurrentIndex] = useState(0);

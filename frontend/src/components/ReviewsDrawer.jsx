@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { X, Star, CheckCircle } from 'lucide-react';
-import { REVIEWS_DATA } from '../data/products';
 
 export default function ReviewsDrawer({ isOpen, onClose }) {
   const [reviewsList, setReviewsList] = useState(REVIEWS_DATA);

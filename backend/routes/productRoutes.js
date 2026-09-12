@@ -26,28 +26,8 @@ router.get("/", async (req, res) => {
 });
 
 
-// GET SINGLE PRODUCT
-router.get("/:id", async (req, res) => {
-    try {
-        const product = await Product.findById(req.params.id);
-
-        if (!product) {
-            return res.status(404).json({
-                message: "Product not found"
-            });
-        }
-
-        res.json(product);
-    } catch (error) {
-        console.error("GET PRODUCT ERROR:", error);
-
-        res.status(500).json({
-            message: "Failed to fetch product"
-        });
-    }
-});
-
 // GET PRODUCTS BY CATEGORY
+// Keep this BEFORE /:id
 router.get("/category/:category", async (req, res) => {
     try {
         const { category } = req.params;
@@ -70,182 +50,449 @@ router.get("/category/:category", async (req, res) => {
     }
 });
 
-// CREATE PRODUCT
-router.post("/", upload.single("image"), async (req, res) => {
-    try {
-        const { title, category, price, size } = req.body;
 
-        // Validate required fields
-        if (!title || !category || !price || !size || !req.file) {
-            return res.status(400).json({
-                message: "Title, category, price and image are required"
+// GET SINGLE PRODUCT
+router.get("/:id", async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id);
+
+        if (!product) {
+            return res.status(404).json({
+                message: "Product not found"
             });
         }
 
-        // Validate price
+        res.json(product);
+
+    } catch (error) {
+        console.error("GET PRODUCT ERROR:", error);
+
+        res.status(500).json({
+            message: "Failed to fetch product"
+        });
+    }
+});
+
+
+// ======================================================
+// CLOUDINARY UPLOAD HELPER
+// ======================================================
+
+const uploadToCloudinary = (buffer) => {
+    return new Promise((resolve, reject) => {
+
+        const stream = cloudinary.uploader.upload_stream(
+            {
+                folder: "ecommerce-products"
+            },
+            (error, result) => {
+
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(result);
+                }
+
+            }
+        );
+
+        stream.end(buffer);
+    });
+};
+
+
+// ======================================================
+// CREATE PRODUCT
+// ======================================================
+
+router.post("/", upload.array("images", 20), async (req, res) => {
+
+    try {
+
+        const {
+            title,
+            category,
+            price,
+            size,
+            variants
+        } = req.body;
+
+
+        // -----------------------------
+        // VALIDATION
+        // -----------------------------
+
+        if (!title || !category || !price || !size) {
+
+            return res.status(400).json({
+                message: "Title, category, price and size are required"
+            });
+
+        }
+
+
+        if (!req.files || req.files.length === 0) {
+
+            return res.status(400).json({
+                message: "At least one image is required"
+            });
+
+        }
+
+
+        if (!variants) {
+
+            return res.status(400).json({
+                message: "Variants are required"
+            });
+
+        }
+
+
+        // -----------------------------
+        // PRICE VALIDATION
+        // -----------------------------
+
         if (isNaN(price) || Number(price) < 0) {
+
             return res.status(400).json({
                 message: "Price must be a valid positive number"
             });
+
         }
 
 
-        // Upload image to Cloudinary
-        const uploadToCloudinary = () => {
-            return new Promise((resolve, reject) => {
-                const stream = cloudinary.uploader.upload_stream(
-                    {
-                        folder: "ecommerce-products"
-                    },
-                    (error, result) => {
-                        if (error) {
-                            reject(error);
-                        } else {
-                            resolve(result);
-                        }
+        // -----------------------------
+        // PARSE VARIANTS
+        // -----------------------------
+
+        let parsedVariants;
+
+        try {
+
+            parsedVariants = JSON.parse(variants);
+
+        } catch (error) {
+
+            return res.status(400).json({
+                message: "Invalid variants data"
+            });
+
+        }
+
+
+        // -----------------------------
+        // UPLOAD ALL IMAGES
+        // -----------------------------
+
+        const uploadedImages = [];
+
+        for (const file of req.files) {
+
+            const result = await uploadToCloudinary(
+                file.buffer
+            );
+
+            uploadedImages.push(result.secure_url);
+        }
+
+
+        // -----------------------------
+        // CONNECT IMAGES TO COLORS
+        // -----------------------------
+
+        const finalVariants = parsedVariants.map(
+            (variant) => {
+
+                const images = variant.imageIndexes.map(
+                    (index) => {
+
+                        return uploadedImages[index];
+
                     }
                 );
 
-                stream.end(req.file.buffer);
-            });
-        };
+
+                return {
+                    color: variant.color,
+                    colorCode: variant.colorCode,
+                    images
+                };
+
+            }
+        );
 
 
-        const result = await uploadToCloudinary();
+        // -----------------------------
+        // CREATE PRODUCT
+        // -----------------------------
 
-
-        // Create product
         const product = await Product.create({
+
             title,
+
             category,
+
             price: Number(price),
+
             size,
-            image: result.secure_url
+
+            variants: finalVariants
+
         });
 
 
         res.status(201).json(product);
 
+
     } catch (error) {
-        console.error("CREATE PRODUCT ERROR:", error);
+
+        console.error(
+            "CREATE PRODUCT ERROR:",
+            error
+        );
 
         res.status(500).json({
             message: error.message
         });
+
     }
+
 });
 
 
+// ======================================================
 // UPDATE PRODUCT
-router.put("/:id", upload.single("image"), async (req, res) => {
-    try {
-        const { title, category, price, size } = req.body;
+// ======================================================
 
-        const product = await Product.findById(req.params.id);
+router.put("/:id", upload.array("images", 20), async (req, res) => {
+
+    try {
+
+        const {
+            title,
+            category,
+            price,
+            size,
+            variants
+        } = req.body;
+
+
+        const product = await Product.findById(
+            req.params.id
+        );
+
 
         if (!product) {
+
             return res.status(404).json({
                 message: "Product not found"
             });
+
         }
 
 
-        // Update title
+        // -----------------------------
+        // BASIC FIELDS
+        // -----------------------------
+
         if (title) {
             product.title = title;
         }
 
 
-        // Update category
         if (category) {
             product.category = category;
         }
 
-        // Update size
+
         if (size) {
             product.size = size;
         }
 
-        // Update price
+
         if (price !== undefined && price !== "") {
 
-            if (isNaN(price) || Number(price) < 0) {
+            if (
+                isNaN(price) ||
+                Number(price) < 0
+            ) {
+
                 return res.status(400).json({
                     message: "Price must be a valid positive number"
                 });
+
             }
 
             product.price = Number(price);
+
         }
 
 
-        // If a new image was uploaded
-        if (req.file) {
+        // -----------------------------
+        // UPDATE VARIANTS
+        // -----------------------------
 
-            const uploadToCloudinary = () => {
-                return new Promise((resolve, reject) => {
-                    const stream = cloudinary.uploader.upload_stream(
-                        {
-                            folder: "ecommerce-products"
-                        },
-                        (error, result) => {
-                            if (error) {
-                                reject(error);
-                            } else {
-                                resolve(result);
-                            }
+        if (variants) {
+
+            let parsedVariants;
+
+            try {
+
+                parsedVariants =
+                    JSON.parse(variants);
+
+            } catch (error) {
+
+                return res.status(400).json({
+                    message: "Invalid variants data"
+                });
+
+            }
+
+
+            // If new images were uploaded
+            if (req.files && req.files.length > 0) {
+
+                const uploadedImages = [];
+
+
+                for (const file of req.files) {
+
+                    const result =
+                        await uploadToCloudinary(
+                            file.buffer
+                        );
+
+                    uploadedImages.push(
+                        result.secure_url
+                    );
+
+                }
+
+
+                const finalVariants =
+                    parsedVariants.map(
+                        (variant) => {
+
+                            const images =
+                                variant.imageIndexes.map(
+                                    (index) =>
+                                        uploadedImages[index]
+                                );
+
+
+                            return {
+                                color: variant.color,
+                                colorCode:
+                                    variant.colorCode,
+                                images
+                            };
+
                         }
                     );
 
-                    stream.end(req.file.buffer);
-                });
-            };
 
+                product.variants =
+                    finalVariants;
 
-            const result = await uploadToCloudinary();
+            } else {
 
-            product.image = result.secure_url;
+                /*
+                 * No new images.
+                 *
+                 * This isn't useful yet for advanced
+                 * image editing, but it allows the rest
+                 * of the product to be updated.
+                 */
+
+                product.variants =
+                    parsedVariants.map(
+                        (variant) => ({
+
+                            color: variant.color,
+
+                            colorCode:
+                                variant.colorCode,
+
+                            images:
+                                variant.images || []
+
+                        })
+                    );
+
+            }
+
         }
 
 
         await product.save();
 
+
         res.json(product);
 
+
     } catch (error) {
-        console.error("UPDATE PRODUCT ERROR:", error);
+
+        console.error(
+            "UPDATE PRODUCT ERROR:",
+            error
+        );
 
         res.status(500).json({
             message: error.message
         });
+
     }
+
 });
 
 
+// ======================================================
 // DELETE PRODUCT
+// ======================================================
+
 router.delete("/:id", async (req, res) => {
+
     try {
-        const product = await Product.findById(req.params.id);
+
+        const product = await Product.findById(
+            req.params.id
+        );
+
 
         if (!product) {
+
             return res.status(404).json({
                 message: "Product not found"
             });
+
         }
 
-        await Product.findByIdAndDelete(req.params.id);
+
+        await Product.findByIdAndDelete(
+            req.params.id
+        );
+
 
         res.json({
             message: "Product deleted"
         });
 
+
     } catch (error) {
-        console.error("DELETE PRODUCT ERROR:", error);
+
+        console.error(
+            "DELETE PRODUCT ERROR:",
+            error
+        );
 
         res.status(500).json({
             message: "Failed to delete product"
         });
+
     }
+
 });
 
 

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Search, ChevronDown, Menu, X, Heart } from 'lucide-react';
-import { CATEGORIES_NAV } from '../data/products';
 
 export default function Header({
   wishlistCount,

@@ -1,6 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
 import '../App.css';
-import { PRODUCTS_DATA } from '../data/products';
 import { getProducts } from '../api.js';
 import Header from '../components/Header';
 import ProductGrid from '../components/ProductGrid';
@@ -54,7 +53,7 @@ function Home() {
 
     // Fetch products
 
-    const [productsData, setProductsData] = useState(PRODUCTS_DATA);
+    const [productsData, setProductsData] = useState(Array);
     const [productsLoading, setProductsLoading] = useState(true);
 
     useEffect(() => {
