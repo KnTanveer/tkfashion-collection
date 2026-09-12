@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import './Admin.css';
 
-const API_URL = "http://localhost:5001/api/products";
+// const API_URL = "http://localhost:5001/api/products";
+const URL = import.meta.env.VITE_API_URL;
+const API_URL = URL + '/api/products';
 
 function Admin() {
     const [products, setProducts] = useState([]);
@@ -266,7 +268,7 @@ function Admin() {
                                     </h3>
 
                                     <p>
-                                        {product.category}
+                                        ₹{product.price} {product.category}
                                     </p>
 
                                     <div className="actions">
