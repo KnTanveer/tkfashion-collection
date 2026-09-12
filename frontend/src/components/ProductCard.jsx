@@ -29,19 +29,6 @@ export default function ProductCard({
           className="product-image"
           loading="lazy"
         />
-
-        {/* Quick View Button on Image Overlay */}
-        <div className="product-card-overlay">
-          <button
-            className="quick-view-btn"
-            onClick={(e) => {
-              e.stopPropagation();
-              onOpenQuickView(product);
-            }}
-          >
-            <Eye size={15} /> Quick View
-          </button>
-        </div>
       </div>
 
       {/* Product Details */}

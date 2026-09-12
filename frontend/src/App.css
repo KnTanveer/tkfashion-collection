@@ -55,14 +55,13 @@ svg.lucide,
 }
 
 .product-card button svg,
-.quick-view-btn svg,
 .card-wishlist-btn svg {
   width: 17px;
   height: 17px;
 }
 
 /* ==========================================================================
-   RAFAA / TK FASHION COLLECTION - E-COMMERCE STYLES
+   TK FASHION COLLECTION - E-COMMERCE STYLES
    ========================================================================== */
 
 /* -----------------------------
@@ -633,25 +632,6 @@ svg.lucide,
 .product-card:hover .product-card-overlay {
   opacity: 1;
   transform: translateY(0);
-}
-
-.quick-view-btn {
-  background: #FFFFFF;
-  color: #111111;
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  padding: 7px 16px;
-  border-radius: var(--radius-full);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  box-shadow: var(--shadow-sm);
-}
-
-.quick-view-btn:hover {
-  background: var(--color-brand-brown);
-  color: #FFFFFF;
 }
 
 .product-info {
@@ -2401,7 +2381,6 @@ svg.lucide,
 .mobile-menu-btn,
 .mobile-wishlist-btn,
 .card-wishlist-btn,
-.quick-view-btn,
 .drawer-close-btn,
 .modal-close-btn,
 .toast-close-btn,
@@ -2428,7 +2407,6 @@ svg.lucide,
 .mobile-menu-btn svg,
 .mobile-wishlist-btn svg,
 .card-wishlist-btn svg,
-.quick-view-btn svg,
 .drawer-close-btn svg,
 .modal-close-btn svg,
 .toast-close-btn svg,
