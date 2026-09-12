@@ -12,9 +12,7 @@ function Admin() {
     const [image, setImage] = useState(null);
 
     const [editingId, setEditingId] = useState(null);
-
     const [loading, setLoading] = useState(false);
-
 
     // GET PRODUCTS
     const fetchProducts = async () => {
@@ -30,11 +28,9 @@ function Admin() {
         }
     };
 
-
     useEffect(() => {
         fetchProducts();
     }, []);
-
 
     // RESET FORM
     const resetForm = () => {
@@ -46,7 +42,6 @@ function Admin() {
 
         document.getElementById("imageInput").value = "";
     };
-
 
     // SUBMIT
     const handleSubmit = async (e) => {
@@ -74,7 +69,6 @@ function Admin() {
             formData.append("image", image);
         }
 
-
         try {
             let response;
 
@@ -96,11 +90,9 @@ function Admin() {
 
             }
 
-
             if (!response.ok) {
                 throw new Error("Request failed");
             }
-
 
             await fetchProducts();
 
@@ -116,7 +108,6 @@ function Admin() {
         }
     };
 
-
     // EDIT
     const handleEdit = (product) => {
         setEditingId(product._id);
@@ -130,28 +121,22 @@ function Admin() {
         });
     };
 
-
     // DELETE
     const handleDelete = async (id) => {
-
         const confirmed = window.confirm(
             "Are you sure you want to delete this product?"
         );
 
         if (!confirmed) return;
 
-
         try {
-
             const response = await fetch(`${API_URL}/${id}`, {
                 method: "DELETE"
             });
 
-
             if (!response.ok) {
                 throw new Error("Delete failed");
             }
-
 
             setProducts(
                 products.filter((product) => product._id !== id)
@@ -164,15 +149,11 @@ function Admin() {
         }
     };
 
-
     return (
         <div className="admin-container">
-
             <h1>Product Admin</h1>
 
-
             {/* FORM */}
-
             <form
                 className="product-form"
                 onSubmit={handleSubmit}
@@ -217,7 +198,6 @@ function Admin() {
                     onChange={(e) => setCategory(e.target.value)}
                 />
 
-
                 <label>
                     Image
                 </label>
@@ -229,9 +209,7 @@ function Admin() {
                     onChange={(e) => setImage(e.target.files[0])}
                 />
 
-
                 <div className="form-buttons">
-
                     <button
                         type="submit"
                         disabled={loading}
@@ -244,7 +222,6 @@ function Admin() {
                         }
                     </button>
 
-
                     {editingId && (
                         <button
                             type="button"
@@ -254,12 +231,8 @@ function Admin() {
                             Cancel
                         </button>
                     )}
-
                 </div>
-
             </form>
-
-
 
             {/* PRODUCTS */}
 
@@ -271,15 +244,11 @@ function Admin() {
 
 
                 {products.length === 0 ? (
-
                     <p>No products yet.</p>
-
                 ) : (
 
                     <div className="products-grid">
-
                         {products.map((product) => (
-
                             <div
                                 className="product-card"
                                 key={product._id}
@@ -289,7 +258,6 @@ function Admin() {
                                     src={product.image}
                                     alt={product.title}
                                 />
-
 
                                 <div className="product-info">
 
@@ -301,15 +269,12 @@ function Admin() {
                                         {product.category}
                                     </p>
 
-
                                     <div className="actions">
-
                                         <button
                                             onClick={() => handleEdit(product)}
                                         >
                                             Edit
                                         </button>
-
 
                                         <button
                                             className="delete-button"
@@ -319,21 +284,13 @@ function Admin() {
                                         >
                                             Delete
                                         </button>
-
                                     </div>
-
                                 </div>
-
                             </div>
-
                         ))}
-
                     </div>
-
                 )}
-
             </div>
-
         </div>
     );
 }

@@ -54,18 +54,38 @@ function Home() {
 
     // Fetch products
 
-    const [productsData, setProductsData] = useState([])
+    const [productsData, setProductsData] = useState(PRODUCTS_DATA);
+    const [productsLoading, setProductsLoading] = useState(true);
+
     useEffect(() => {
+        let cancelled = false;
+
         async function loadAllProducts() {
-            const data = await getProducts()
-            setProductsData(data)
+            try {
+                const data = await getProducts();
+
+                if (!cancelled && Array.isArray(data) && data.length > 0) {
+                    setProductsData(data);
+                }
+            } catch (error) {
+                console.error('Failed to load products:', error);
+            } finally {
+                if (!cancelled) {
+                    setProductsLoading(false);
+                }
+            }
         }
-        loadAllProducts()
+
+        loadAllProducts();
+
+        return () => {
+            cancelled = true;
+        };
     }, [])
 
     // Filtered & Sorted Products
     const filteredProducts = useMemo(() => {
-        let list = [...PRODUCTS_DATA];
+        let list = [...productsData];
 
         // Filter by Size
         if (selectedSizes.length > 0) {
@@ -103,17 +123,15 @@ function Home() {
         }
 
         return list;
-    }, [selectedSizes, selectedFabrics, selectedColors, priceRange, sortBy]);
+    }, [productsData, selectedSizes, selectedFabrics, selectedColors, priceRange, sortBy]);
 
     // Wishlisted product objects
     const wishlistedProducts = useMemo(() => {
-        return PRODUCTS_DATA.filter((p) => wishlist.includes(p.id));
-    }, [wishlist]);
+        return productsData.filter((p) => wishlist.includes(p.id));
+    }, [productsData, wishlist]);
 
     // Display count (matching reference screenshot count: e.g. 163 products or dynamic)
-    const displayCount = selectedSizes.length > 0 || selectedFabrics.length > 0 || selectedColors.length > 0 || priceRange < 6000
-        ? filteredProducts.length
-        : 163;
+    const displayCount = filteredProducts.length;
 
     return (
         <div className="app-root">
@@ -128,30 +146,22 @@ function Home() {
             />
 
             <Hero />
-            {/* 4. Main Catalog Section (2-Column Layout) */}
-            <div className="catalog-page-container">
+            {/* 4. Main Catalog Section */}
+            <main className="catalog-page-container">
                 <div className="catalog-layout">
-
-                    {/* Right Column: Products Grid */}
-                    {/* <ProductGrid
-            products={PRODUCTS_DATA}
-            totalDisplayCount={displayCount}
-            sortBy={sortBy}
-            onChangeSort={setSortBy}
-            wishlistIds={wishlist}
-            onToggleWishlist={handleToggleWishlist}
-            onOpenQuickView={(p) => setQuickViewProduct(p)}
-            onClearFilters={handleClearAllFilters}
-          /> */}
-
                     <ProductGrid
-                        products={productsData}
+                        products={filteredProducts}
+                        totalDisplayCount={displayCount}
+                        sortBy={sortBy}
+                        onChangeSort={setSortBy}
+                        wishlistIds={wishlist}
                         onToggleWishlist={handleToggleWishlist}
                         onOpenQuickView={(p) => setQuickViewProduct(p)}
                         onClearFilters={handleClearAllFilters}
+                        loading={productsLoading}
                     />
                 </div>
-            </div>
+            </main>
 
             {/* 5. Site Footer */}
             <Footer />
