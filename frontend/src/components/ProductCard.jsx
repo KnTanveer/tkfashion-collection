@@ -1,4 +1,4 @@
-import { Heart, Eye } from 'lucide-react';
+import { Heart } from 'lucide-react';
 
 export default function ProductCard({
   product,
@@ -9,7 +9,6 @@ export default function ProductCard({
 
   return (
     <div className="product-card" onClick={() => onOpenQuickView(product)}>
-      <div className="product-image-container">
         {/* Wishlist Button */}
         <button
           className={`card-wishlist-btn ${isWishlisted ? 'active' : ''}`}
@@ -29,7 +28,6 @@ export default function ProductCard({
           className="product-image"
           loading="lazy"
         />
-      </div>
 
       {/* Product Details */}
       <div className="product-info">
@@ -41,10 +39,7 @@ export default function ProductCard({
 
         {/* Price Row */}
         <div className="product-price-row">
-          <span className="current-price">₹{product.price.toLocaleString()}</span>
-          {product.originalPrice && (
-            <span className="original-price">₹{product.originalPrice.toLocaleString()}</span>
-          )}
+          <span className="current-price">₹ {product.price.toLocaleString()}</span>
         </div>
       </div>
     </div>

@@ -56,9 +56,6 @@ export default function WishlistDrawer({
                     <h4 className="wishlist-item-title">{product.title}</h4>
                     <div className="wishlist-item-price">
                       <span className="current-price">₹{product.price.toLocaleString()}</span>
-                      {product.originalPrice && (
-                        <span className="original-price">₹{product.originalPrice.toLocaleString()}</span>
-                      )}
                     </div>
                     <button
                       className="wishlist-add-to-bag-btn"

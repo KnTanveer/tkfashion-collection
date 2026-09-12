@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { X, Heart, ShoppingBag, Check, MapPin } from 'lucide-react';
+import { X, Heart } from 'lucide-react';
+import { SiWhatsapp } from "@icons-pack/react-simple-icons";
 
 export default function QuickViewModal({
   product,
@@ -10,28 +11,13 @@ export default function QuickViewModal({
   onAddToCart
 }) {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const [pincode, setPincode] = useState('');
-  const [pincodeStatus, setPincodeStatus] = useState(null);
+  const [selectedSize, setSelectedSize] = useState('L');
   const [isAdded, setIsAdded] = useState(false);
 
   if (!isOpen || !product) return null;
 
   const images = product.images && product.images.length > 0 ? product.images : [product.image];
-
-  const handleCheckPincode = (e) => {
-    e.preventDefault();
-    if (pincode.length >= 6) {
-      setPincodeStatus({
-        valid: true,
-        message: 'COD is Available at this location. Delivery in 3-5 working days.'
-      });
-    } else {
-      setPincodeStatus({
-        valid: false,
-        message: 'Please enter a valid 6-digit Indian PIN code.'
-      });
-    }
-  };
+  const currentSize = selectedSize || product.sizes[0] || 'L';
 
   const handleAddToCart = () => {
     onAddToCart(product);
@@ -80,37 +66,46 @@ export default function QuickViewModal({
 
           {/* Product Details Right */}
           <div className="quickview-details">
-            <div className="quickview-code">SKU: {product.code}</div>
             <h2 className="quickview-title">{product.title}</h2>
             <p className="quickview-subtitle">{product.subtitle}</p>
 
             {/* Price */}
             <div className="quickview-price-row">
               <span className="current-price">₹{product.price.toLocaleString()}</span>
-              {product.originalPrice && (
-                <span className="original-price">₹{product.originalPrice.toLocaleString()}</span>
-              )}
               <span className="tax-inclusive-tag">Inclusive of all taxes</span>
             </div>
 
             <p className="quickview-description">{product.description}</p>
 
+            
+            {/* Size Selector */}
+            <div className="quickview-option-group">
+              <div className="option-header">
+                <span className="option-label">Select Size:</span>
+              </div>
+              <div className="sizes-selector-grid">
+                {product.sizes?.map((size) => (
+                  <button
+                    key={size}
+                    className={`size-choice-btn ${currentSize === size ? 'selected' : ''}`}
+                    onClick={() => setSelectedSize(size)}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             {/* Add to Cart & Wishlist Actions */}
             <div className="quickview-action-buttons">
-              <button
-                className={`quickview-add-btn ${isAdded ? 'added' : ''}`}
-                onClick={handleAddToCart}
-              >
-                {isAdded ? (
-                  <>
-                    <Check size={18} /> Added to Bag
-                  </>
-                ) : (
-                  <>
-                    <ShoppingBag size={18} /> Add to Bag • ₹{(product.price).toLocaleString()}
-                  </>
-                )}
-              </button>
+              <a href='https://api.whatsapp.com/send/?phone=919969454909&text=Hi+TK+Fashion+Collection%21+I+have+a+question+about+size%2C+fabric+or+availability.&type=phone_number&app_absent=0'>
+                <button
+                  className={`quickview-add-btn ${isAdded ? 'added' : ''}`}
+                  onClick={handleAddToCart}
+                >
+                  Buy now <SiWhatsapp size={18} />
+                </button>
+              </a>
 
               <button
                 className={`quickview-wishlist-toggle ${isWishlisted ? 'active' : ''}`}
@@ -119,32 +114,6 @@ export default function QuickViewModal({
               >
                 <Heart size={20} fill={isWishlisted ? '#c5a880' : 'none'} color={isWishlisted ? '#c5a880' : '#1C1917'} />
               </button>
-            </div>
-
-            {/* PIN Code Delivery Checker */}
-            <div className="pincode-checker-box">
-              <form onSubmit={handleCheckPincode} className="pincode-form">
-                <div className="pincode-input-wrap">
-                  <MapPin size={16} className="pincode-pin-icon" />
-                  <input
-                    type="text"
-                    maxLength={6}
-                    placeholder="Enter Indian PIN Code for COD check"
-                    value={pincode}
-                    onChange={(e) => setPincode(e.target.value.replace(/\D/g, ''))}
-                    className="pincode-input"
-                  />
-                </div>
-                <button type="submit" className="pincode-check-btn">
-                  Check
-                </button>
-              </form>
-              {pincodeStatus && (
-                <div className={`pincode-result ${pincodeStatus.valid ? 'success' : 'error'}`}>
-                  {pincodeStatus.valid ? <Check size={14} /> : null}
-                  <span>{pincodeStatus.message}</span>
-                </div>
-              )}
             </div>
 
             {/* Specifications Details List */}
