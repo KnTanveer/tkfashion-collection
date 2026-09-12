@@ -77,14 +77,14 @@ export default function QuickViewModal({
 
             <p className="quickview-description">{product.description}</p>
 
-            
+
             {/* Size Selector */}
             <div className="quickview-option-group">
               <div className="option-header">
                 <span className="option-label">Select Size:</span>
               </div>
               <div className="sizes-selector-grid">
-                {product.sizes?.map((size) => (
+                {product.size?.split(",").map((size) => (
                   <button
                     key={size}
                     className={`size-choice-btn ${currentSize === size ? 'selected' : ''}`}

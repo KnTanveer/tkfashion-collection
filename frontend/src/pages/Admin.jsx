@@ -11,6 +11,7 @@ function Admin() {
     const [title, setTitle] = useState("");
     const [price, setPrice] = useState("");
     const [category, setCategory] = useState("");
+    const [size, setSize] = useState("");
     const [image, setImage] = useState(null);
 
     const [editingId, setEditingId] = useState(null);
@@ -39,6 +40,7 @@ function Admin() {
         setTitle("");
         setPrice("");
         setCategory("");
+        setSize("");
         setImage(null);
         setEditingId(null);
 
@@ -49,8 +51,8 @@ function Admin() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!title || !category) {
-            alert("Please enter title and category");
+        if (!title) {
+            alert("Please enter title");
             return;
         }
 
@@ -66,6 +68,7 @@ function Admin() {
         formData.append("title", title);
         formData.append("price", price);
         formData.append("category", category);
+        formData.append("size", size);
 
         if (image) {
             formData.append("image", image);
@@ -116,6 +119,7 @@ function Admin() {
         setPrice(product.price);
         setTitle(product.title);
         setCategory(product.category);
+        setSize(product.size || "");
 
         window.scrollTo({
             top: 0,
@@ -198,6 +202,17 @@ function Admin() {
                     placeholder="T-Shirts"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
+                />
+
+                <label>
+                    Sizes
+                </label>
+
+                <input
+                    type="text"
+                    placeholder="S, M, L, XL"
+                    value={size}
+                    onChange={(e) => setSize(e.target.value)}
                 />
 
                 <label>

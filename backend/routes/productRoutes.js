@@ -73,10 +73,10 @@ router.get("/category/:category", async (req, res) => {
 // CREATE PRODUCT
 router.post("/", upload.single("image"), async (req, res) => {
     try {
-        const { title, category, price } = req.body;
+        const { title, category, price, size } = req.body;
 
         // Validate required fields
-        if (!title || !category || !price || !req.file) {
+        if (!title || !category || !price || !size || !req.file) {
             return res.status(400).json({
                 message: "Title, category, price and image are required"
             });
@@ -119,6 +119,7 @@ router.post("/", upload.single("image"), async (req, res) => {
             title,
             category,
             price: Number(price),
+            size,
             image: result.secure_url
         });
 
@@ -138,7 +139,7 @@ router.post("/", upload.single("image"), async (req, res) => {
 // UPDATE PRODUCT
 router.put("/:id", upload.single("image"), async (req, res) => {
     try {
-        const { title, category, price } = req.body;
+        const { title, category, price, size } = req.body;
 
         const product = await Product.findById(req.params.id);
 
@@ -160,6 +161,10 @@ router.put("/:id", upload.single("image"), async (req, res) => {
             product.category = category;
         }
 
+        // Update size
+        if (size) {
+            product.size = size;
+        }
 
         // Update price
         if (price !== undefined && price !== "") {
