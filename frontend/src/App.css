@@ -1266,9 +1266,10 @@ button {
   font-size: 15px;
 }
 
-.tax-inclusive-tag {
+.old-price {
   font-size: 11px;
   color: var(--color-text-subtle);
+  text-decoration: line-through;
 }
 
 .quickview-description {

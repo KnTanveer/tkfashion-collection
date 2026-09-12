@@ -72,7 +72,7 @@ export default function QuickViewModal({
             {/* Price */}
             <div className="quickview-price-row">
               <span className="current-price">₹{product.price.toLocaleString()}</span>
-              <span className="tax-inclusive-tag">Inclusive of all taxes</span>
+              <span className="old-price">₹{(product.price -300).toLocaleString()}</span>
             </div>
 
             <p className="quickview-description">{product.description}</p>
@@ -98,7 +98,7 @@ export default function QuickViewModal({
 
             {/* Add to Cart & Wishlist Actions */}
             <div className="quickview-action-buttons">
-              <a href='https://api.whatsapp.com/send/?phone=919969454909&text=Hi+TK+Fashion+Collection%21+I+have+a+question+about+size%2C+fabric+or+availability.&type=phone_number&app_absent=0'>
+              <a href={`https://api.whatsapp.com/send/?phone=919969454909&text=Hi+TK+Fashion+Collection%21+I+want+to+purchase+${product.title}&type=phone_number&app_absent=0`}>
                 <button
                   className={`quickview-add-btn ${isAdded ? 'added' : ''}`}
                   onClick={handleAddToCart}
