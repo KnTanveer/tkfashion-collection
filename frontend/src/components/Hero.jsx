@@ -28,12 +28,20 @@ const Hero = () => {
 
                 {/* Buttons */}
                 <div className="hero-buttons">
-                    <button className="hero-btn hero-btn-primary">
+                    <button className="hero-btn hero-btn-primary" onClick={() => {
+                        document.getElementById("categories")?.scrollIntoView({
+                            behavior: "smooth"
+                        });
+                    }}>
                         <span>SHOP COLLECTION</span>
                         <span className="arrow">→</span>
                     </button>
 
-                    <button className="hero-btn hero-btn-secondary">
+                    <button className="hero-btn hero-btn-secondary" onClick={() => {
+                        document.getElementById("newarrivals")?.scrollIntoView({
+                            behavior: "smooth"
+                        });
+                    }}>
                         NEW ARRIVALS
                     </button>
                 </div>

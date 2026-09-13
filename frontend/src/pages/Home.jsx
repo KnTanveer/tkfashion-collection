@@ -84,46 +84,7 @@ function Home() {
     }, [])
 
     // Filtered & Sorted Products
-    const filteredProducts = useMemo(() => {
-        let list = [...productsData];
-
-        // Filter by Size
-        if (selectedSizes.length > 0) {
-            list = list.filter((p) =>
-                p.sizes.some((s) => selectedSizes.includes(s))
-            );
-        }
-
-        // Filter by Fabric
-        if (selectedFabrics.length > 0) {
-            list = list.filter((p) => selectedFabrics.includes(p.fabric));
-        }
-
-        // Filter by Color
-        if (selectedColors.length > 0) {
-            list = list.filter((p) => selectedColors.includes(p.color));
-        }
-
-        // Filter by Price Range
-        list = list.filter((p) => p.price <= priceRange);
-
-        // Sort Products
-        if (sortBy === 'date-new-old') {
-            list.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
-        } else if (sortBy === 'date-old-new') {
-            list.sort((a, b) => new Date(a.dateAdded) - new Date(b.dateAdded));
-        } else if (sortBy === 'price-low-high') {
-            list.sort((a, b) => a.price - b.price);
-        } else if (sortBy === 'price-high-low') {
-            list.sort((a, b) => b.price - a.price);
-        } else if (sortBy === 'best-selling') {
-            list.sort((a, b) => (b.isBestSeller ? 1 : 0) - (a.isBestSeller ? 1 : 0));
-        } else if (sortBy === 'rating') {
-            list.sort((a, b) => b.rating - a.rating);
-        }
-
-        return list;
-    }, [productsData, selectedSizes, selectedFabrics, selectedColors, priceRange, sortBy]);
+    const sixProducts = productsData.slice(0, 6);
 
     // Wishlisted product objects
     const wishlistedProducts = useMemo(() => {
@@ -148,12 +109,12 @@ function Home() {
             {/* 4. Main Catalog Section */}
 
             <main className="catalog-page-container">
-                <div className="category-header">
+                <div id="newarrivals" className="category-header">
                     <h2>New Arrivals</h2>
                 </div>
                 <div className="catalog-layout">
                     <ProductGrid
-                        products={filteredProducts}
+                        products={sixProducts}
                         wishlistIds={wishlist}
                         onToggleWishlist={handleToggleWishlist}
                         onOpenQuickView={(p) => setQuickViewProduct(p)}

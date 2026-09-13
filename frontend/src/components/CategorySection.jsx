@@ -12,7 +12,7 @@ function CategorySection({ products = [] }) {
     ];
 
     return (
-        <section className="category-section">
+        <section id="categories" className="category-section">
 
             <div className="category-header">
                 <div>
