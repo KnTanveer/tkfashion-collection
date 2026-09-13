@@ -19,9 +19,7 @@ export default function QuickViewModal({
   const galleryRef = useRef(null);
   const imageRefs = useRef([]);
 
-  /*
-   * Flatten variants into one continuous gallery
-   */
+  /* Flatten variants into one continuous gallery */
   const gallery =
     product?.variants?.flatMap((variant) =>
       variant.images.map((image) => ({
@@ -39,9 +37,7 @@ export default function QuickViewModal({
       .map((size) => size.trim())
       .filter(Boolean) || [];
 
-  /*
-   * Reset when product changes
-   */
+  /* Reset when product changes */
   useEffect(() => {
     if (!product) return;
 
@@ -229,29 +225,6 @@ export default function QuickViewModal({
               ))}
 
             </div>
-
-            {/* Previous */}
-            {gallery.length > 1 && activeImageIndex > 0 && (
-              <button
-                className="gallery-arrow gallery-arrow-left"
-                onClick={previousImage}
-                aria-label="Previous image"
-              >
-                <ChevronLeft size={20} />
-              </button>
-            )}
-
-            {/* Next */}
-            {gallery.length > 1 &&
-              activeImageIndex < gallery.length - 1 && (
-                <button
-                  className="gallery-arrow gallery-arrow-right"
-                  onClick={nextImage}
-                  aria-label="Next image"
-                >
-                  <ChevronRight size={20} />
-                </button>
-              )}
 
             {/* Image counter */}
             {gallery.length > 1 && (
@@ -451,9 +424,7 @@ export default function QuickViewModal({
             <div className="quickview-action-buttons">
 
               <a
-                href={`https://api.whatsapp.com/send/?phone=919969454909&text=Hi+TK+Fashion+Collection%21+I+want+to+purchase+${encodeURIComponent(
-                  product.title
-                )}&type=phone_number&app_absent=0`}
+                href={`https://api.whatsapp.com/send/?phone=919969454909&text=Hi+TK+Fashion+Collection%21+I+want+to+purchase+${product.title}+of+size+${selectedSize}+and+color+${selectedColor}+&type=phone_number&app_absent=0`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
