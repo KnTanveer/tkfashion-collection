@@ -2,7 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import ProductGrid from "../components/ProductGrid";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
-import { getProductByCategory } from "../api";
+import { getProductByCategory, getProducts } from "../api";
 import Footer from "../components/Footer";
 
 function Products() {
@@ -14,8 +14,13 @@ function Products() {
     useEffect(() => {
         async function fetchProducts() {
             try {
-                const data = await getProductByCategory(category);
-                setProducts(data);
+                if (!category) {
+                    const data = await getProducts();
+                    setProducts(data);
+                } else {
+                    const data = await getProductByCategory(category);
+                    setProducts(data);
+                }
             } catch (error) {
                 console.error("Failed to fetch products:", error);
                 setProducts([]);
@@ -32,7 +37,7 @@ function Products() {
             <div className="catalog-page-container">
                 <div className="products-header">
                     <h1>
-                        {category || "All Products"}
+                        {category || "All"}
                     </h1>
                 </div>
 

@@ -20,9 +20,12 @@ function CategorySection({ products = [] }) {
                     <h2>Shop By Category</h2>
                 </div>
 
-                <button className="category-view-all">
+                <Link
+                    to="/products"
+                    className="category-view-all"
+                >
                     VIEW ALL <span>→</span>
-                </button>
+                </Link>
             </div>
 
             <div className="category-grid">
