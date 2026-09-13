@@ -8,6 +8,11 @@
   box-sizing: border-box;
 }
 
+::selection {
+  background: #b89a5a;
+  color: white;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -1638,15 +1643,15 @@ button {
   margin-bottom: 16px;
 }
 
-.footer-contact {
+.connect-row {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
-  font-size: 13px;
-  color: #333;
+  align-items: center;
+  gap: 8px;
 }
 
-.contact-row {
+.quote-row {
+  font-style: italic;
+  color: #b89a5a;
   display: flex;
   align-items: center;
   gap: 8px;

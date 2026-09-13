@@ -1,9 +1,10 @@
-import { ShieldCheck, Truck, RotateCcw, Award, Phone, Mail } from 'lucide-react';
+import { SiGooglemaps, SiInstagram, SiWhatsapp } from "@icons-pack/react-simple-icons";
 
 export default function Footer() {
   return (
     <footer className="site-footer">
       {/* Value Propositions / Trust Highlights */}
+      {/* 
       <div className="footer-highlights">
         <div className="highlight-item">
           <Truck size={28} strokeWidth={1.5} />
@@ -33,46 +34,32 @@ export default function Footer() {
             <p>Handcrafted Pakistani threadwork</p>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Main Footer Links */}
       <div className="footer-main">
         <div className="footer-col brand-col">
           <span className="footer-logo">TK FASHION</span>
+            <div className="quote-row">
+              <span>“Handpicked, Not Mass-Produced.”</span>
+            </div>
           <p className="footer-desc">
-            TK Fashion Collection brings you genuine Pakistani suits, bridal formals, chikankari anarkalis, and handcrafted festive wear for Eid 2026.
+            Handpicked ethnic wear for the modern Indian woman, curated in Mumbai and shipped across India.
           </p>
-          <div className="footer-contact">
-            <div className="contact-row">
-              <Phone size={15} /> <span>+91 9969454909</span>
-            </div>
-            <div className="contact-row">
-              <Mail size={15} /> <span>support@tkfashioncollection.com</span>
-            </div>
-          </div>
         </div>
 
         <div className="footer-col">
-          <h4 className="footer-col-title">COLLECTIONS</h4>
+          <h4 className="footer-col-title">Connect</h4>
           <ul className="footer-links">
-            <li><a href="#eid-2026">Eid 2026 Edit</a></li>
-            <li><a href="#pakistani-suits">Pakistani Embroidered Suits</a></li>
-            <li><a href="#palazzo-sets">Embroidered Palazzo Sets</a></li>
-            <li><a href="#velvet-specials">Micro Velvet 9000</a></li>
-            <li><a href="#shararas-ghararas">Farshi Ghararas</a></li>
-            <li><a href="#clearance">Clearance Sale (Up to 60% OFF)</a></li>
-          </ul>
-        </div>
-
-        <div className="footer-col">
-          <h4 className="footer-col-title">CUSTOMER CARE</h4>
-          <ul className="footer-links">
-            <li><a href="#track-order">Track Your Order</a></li>
-            <li><a href="#shipping-policy">Shipping & COD Policy</a></li>
-            <li><a href="#return-exchange">Return & Exchange</a></li>
-            <li><a href="#size-guide">Size Measurement Guide</a></li>
-            <li><a href="#faqs">Frequently Asked Questions</a></li>
-            <li><a href="#contact">Contact Us / WhatsApp Support</a></li>
+            <div className="connect-row">
+              <SiInstagram size={15} /> <li><a href="#size-guide">Instagram</a></li>
+            </div>
+            <div className="connect-row">
+              <SiWhatsapp size={15} /> <li><a href="#faqs">Whatsapp Channel</a></li>
+            </div>
+            <div className="connect-row">
+              <SiGooglemaps size={15} /> <li><a href="#contact">Vikhroli, Mumbai, Maharashtra</a></li>
+            </div>
           </ul>
         </div>
       </div>
