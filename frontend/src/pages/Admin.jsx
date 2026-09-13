@@ -8,6 +8,7 @@ function Admin() {
     const [products, setProducts] = useState([]);
 
     const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
     const [category, setCategory] = useState("");
     const [size, setSize] = useState("");
@@ -83,6 +84,7 @@ function Admin() {
     // RESET FORM
     const resetForm = () => {
         setTitle("");
+        setDescription("");
         setPrice("");
         setCategory("");
         setSize("");
@@ -107,56 +109,61 @@ function Admin() {
             return;
         }
 
-        if (variants.length === 0) {
-            alert("Add at least one color");
-            return;
-        }
-
-        for (const variant of variants) {
-            if (!variant.color) {
-                alert("Every color needs a name");
-                return;
-            }
-
-            if (variant.images.length === 0) {
-                alert(`Add images for ${variant.color}`);
-                return;
-            }
-        }
-
         setLoading(true);
 
         const formData = new FormData();
 
         formData.append("title", title);
+        formData.append("description", description);
         formData.append("price", price);
         formData.append("category", category);
         formData.append("size", size);
 
-        let imageIndex = 0;
+        // Only add variants/images when creating a new product
+        if (!editingId) {
+            if (variants.length === 0) {
+                alert("Add at least one color");
+                setLoading(false);
+                return;
+            }
 
-        const variantData = variants.map((variant) => {
-            const imageIndexes = [];
+            for (const variant of variants) {
+                if (!variant.color) {
+                    alert("Every color needs a name");
+                    setLoading(false);
+                    return;
+                }
 
-            variant.images.forEach((image) => {
-                formData.append("images", image);
+                if (variant.images.length === 0) {
+                    alert(`Add images for ${variant.color}`);
+                    setLoading(false);
+                    return;
+                }
+            }
 
-                imageIndexes.push(imageIndex);
+            let imageIndex = 0;
 
-                imageIndex++;
+            const variantData = variants.map((variant) => {
+                const imageIndexes = [];
+
+                variant.images.forEach((image) => {
+                    formData.append("images", image);
+                    imageIndexes.push(imageIndex);
+                    imageIndex++;
+                });
+
+                return {
+                    color: variant.color,
+                    colorCode: variant.colorCode,
+                    imageIndexes
+                };
             });
 
-            return {
-                color: variant.color,
-                colorCode: variant.colorCode,
-                imageIndexes
-            };
-        });
-
-        formData.append(
-            "variants",
-            JSON.stringify(variantData)
-        );
+            formData.append(
+                "variants",
+                JSON.stringify(variantData)
+            );
+        }
 
         try {
             let response;
@@ -178,12 +185,10 @@ function Admin() {
             }
 
             await fetchProducts();
-
             resetForm();
 
         } catch (error) {
             console.error(error);
-
             alert("Something went wrong");
 
         } finally {
@@ -194,9 +199,11 @@ function Admin() {
     // EDIT
     const handleEdit = (product) => {
         setEditingId(product._id);
-        setPrice(product.price);
-        setTitle(product.title);
-        setCategory(product.category);
+
+        setTitle(product.title || "");
+        setDescription(product.description || "");
+        setPrice(product.price || "");
+        setCategory(product.category || "");
         setSize(product.size || "");
 
         window.scrollTo({
@@ -257,6 +264,17 @@ function Admin() {
                     placeholder="Product title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
+                />
+
+                <label>
+                    Description
+                </label>
+
+                <input
+                    type="text"
+                    placeholder="Product description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
                 />
 
                 <label>
@@ -437,7 +455,7 @@ function Admin() {
                                     alt={product.title}
                                 />
 
-                                <div className="product-info">
+                                <div className="admin-product-info">
 
                                     <h3>
                                         {product.title}

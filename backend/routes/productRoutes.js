@@ -111,6 +111,7 @@ router.post("/", upload.array("images", 20), async (req, res) => {
 
         const {
             title,
+            description,
             category,
             price,
             size,
@@ -231,6 +232,8 @@ router.post("/", upload.array("images", 20), async (req, res) => {
 
             title,
 
+            description,
+
             category,
 
             price: Number(price),
@@ -265,186 +268,55 @@ router.post("/", upload.array("images", 20), async (req, res) => {
 // UPDATE PRODUCT
 // ======================================================
 
-router.put("/:id", upload.array("images", 20), async (req, res) => {
-
+router.put("/:id", upload.none(), async (req, res) => {
     try {
+        const { title, description, category, price, size } = req.body;
 
-        const {
-            title,
-            category,
-            price,
-            size,
-            variants
-        } = req.body;
-
-
-        const product = await Product.findById(
-            req.params.id
-        );
-
+        const product = await Product.findById(req.params.id);
 
         if (!product) {
-
             return res.status(404).json({
                 message: "Product not found"
             });
-
         }
 
-
-        // -----------------------------
-        // BASIC FIELDS
-        // -----------------------------
-
-        if (title) {
+        if (title !== undefined) {
             product.title = title;
         }
 
+        if (description !== undefined) {
+            product.description = description;
+        }
 
-        if (category) {
+        if (category !== undefined) {
             product.category = category;
         }
 
-
-        if (size) {
+        if (size !== undefined) {
             product.size = size;
         }
 
-
         if (price !== undefined && price !== "") {
-
-            if (
-                isNaN(price) ||
-                Number(price) < 0
-            ) {
-
+            if (isNaN(price) || Number(price) < 0) {
                 return res.status(400).json({
-                    message: "Price must be a valid positive number"
+                    message: "Price must be a valid number"
                 });
-
             }
 
             product.price = Number(price);
-
         }
-
-
-        // -----------------------------
-        // UPDATE VARIANTS
-        // -----------------------------
-
-        if (variants) {
-
-            let parsedVariants;
-
-            try {
-
-                parsedVariants =
-                    JSON.parse(variants);
-
-            } catch (error) {
-
-                return res.status(400).json({
-                    message: "Invalid variants data"
-                });
-
-            }
-
-
-            // If new images were uploaded
-            if (req.files && req.files.length > 0) {
-
-                const uploadedImages = [];
-
-
-                for (const file of req.files) {
-
-                    const result =
-                        await uploadToCloudinary(
-                            file.buffer
-                        );
-
-                    uploadedImages.push(
-                        result.secure_url
-                    );
-
-                }
-
-
-                const finalVariants =
-                    parsedVariants.map(
-                        (variant) => {
-
-                            const images =
-                                variant.imageIndexes.map(
-                                    (index) =>
-                                        uploadedImages[index]
-                                );
-
-
-                            return {
-                                color: variant.color,
-                                colorCode:
-                                    variant.colorCode,
-                                images
-                            };
-
-                        }
-                    );
-
-
-                product.variants =
-                    finalVariants;
-
-            } else {
-
-                /*
-                 * No new images.
-                 *
-                 * This isn't useful yet for advanced
-                 * image editing, but it allows the rest
-                 * of the product to be updated.
-                 */
-
-                product.variants =
-                    parsedVariants.map(
-                        (variant) => ({
-
-                            color: variant.color,
-
-                            colorCode:
-                                variant.colorCode,
-
-                            images:
-                                variant.images || []
-
-                        })
-                    );
-
-            }
-
-        }
-
 
         await product.save();
 
-
         res.json(product);
 
-
     } catch (error) {
-
-        console.error(
-            "UPDATE PRODUCT ERROR:",
-            error
-        );
+        console.error("UPDATE PRODUCT ERROR:", error);
 
         res.status(500).json({
             message: error.message
         });
-
     }
-
 });
 
 

@@ -620,14 +620,14 @@ button {
 }
 
 .product-info {
-  padding: 12px 2px 4px 2px;
+  padding: 12px 12px 8px 12px;
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
 .product-title {
-  font-size: 18px;
+  font-size: 16px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1830,7 +1830,7 @@ button {
     gap: 12px 8px;
   }
   .product-title {
-    font-size: 16px;
+    font-size: 14px;
   }
   .current-price {
     font-size: 14px;
@@ -1951,7 +1951,7 @@ button {
   }
 
   .product-info {
-    padding-top: 9px;
+    padding: 12px 8px 6px 8px;
   }
 
   .product-price-row {

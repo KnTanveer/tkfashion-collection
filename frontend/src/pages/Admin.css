@@ -115,15 +115,15 @@
   display: block;
 }
 
-.product-info {
+.admin-product-info {
   padding: 15px;
 }
 
-.product-info h3 {
+.admin-product-info h3 {
   margin: 0 0 6px;
 }
 
-.product-info p {
+.admin-product-info p {
   color: #666;
   margin: 0 0 15px;
 }
