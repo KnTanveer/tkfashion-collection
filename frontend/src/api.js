@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const URL = import.meta.env.VITE_API_URL;
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 export async function getProducts() {
     const res = await axios.get(`${URL}/api/products`)   
@@ -33,17 +34,17 @@ export async function getProductByCategory(category) {
 }
 
 export async function createProduct(post) {
-    const res = await axios.post(`${URL}/api/products`, post)
+    const res = await axios.post(`${URL}/${API_KEY}/api/products`, post)
     return res
 }
 
 export async function updateProduct(id, post) {
-    const res = await axios.put(`${URL}/api/products/${id}`, post)
+    const res = await axios.put(`${URL}/${API_KEY}/api/products/${id}`, post)
     return res
 }
 
 export async function deleteProduct(id) {
-    const res = await axios.delete(`${URL}/api/products/${id}`)   
+    const res = await axios.delete(`${URL}/${API_KEY}/api/products/${id}`)   
     
     return res
 }

@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import "./Admin.css";
 
 const URL = import.meta.env.VITE_API_URL;
+const ADMIN_KEY = import.meta.env.VITE_ADMIN_KEY;
+const API_KEY = import.meta.env.VITE_API_KEY;
 const API_URL = URL + "/api/products";
 
 function Admin() {
@@ -23,6 +25,8 @@ function Admin() {
 
     const [editingId, setEditingId] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [authenticated, setAuthenticated] = useState(false);
+    const [adminPassword, setAdminPassword] = useState("");
 
     // Color
     const addVariant = () => {
@@ -66,6 +70,23 @@ function Admin() {
         setVariants(updated);
     };
 
+    // Handle Login
+    const handleLogin = async (e) => {
+        e.preventDefault();
+
+        if (!adminPassword) {
+            return;
+        }
+
+        if (adminPassword !== ADMIN_KEY) {
+            alert("Invalid password");
+            return;
+        }
+
+        setAuthenticated(true);
+        setAdminPassword("");
+    };
+
     // GET PRODUCTS
     const fetchProducts = async () => {
         try {
@@ -78,8 +99,10 @@ function Admin() {
     };
 
     useEffect(() => {
-        fetchProducts();
-    }, []);
+        if (authenticated) {
+            fetchProducts();
+        }
+    }, [authenticated]);
 
     // RESET FORM
     const resetForm = () => {
@@ -169,12 +192,12 @@ function Admin() {
             let response;
 
             if (editingId) {
-                response = await fetch(`${API_URL}/${editingId}`, {
+                response = await fetch(`${API_URL}/${API_KEY}/${editingId}`, {
                     method: "PUT",
                     body: formData
                 });
             } else {
-                response = await fetch(API_URL, {
+                response = await fetch(`${API_URL}/${API_KEY}/`, {
                     method: "POST",
                     body: formData
                 });
@@ -221,7 +244,7 @@ function Admin() {
         if (!confirmed) return;
 
         try {
-            const response = await fetch(`${API_URL}/${id}`, {
+            const response = await fetch(`${API_URL}/${API_KEY}/${id}`, {
                 method: "DELETE"
             });
 
@@ -239,6 +262,32 @@ function Admin() {
             alert("Failed to delete product");
         }
     };
+
+    if (!authenticated) {
+        return (
+            <div className="admin-login">
+                <h1>Admin Login</h1>
+
+                <form onSubmit={handleLogin}>
+                    <input
+                        type="password"
+                        placeholder="Admin password"
+                        value={adminPassword}
+                        onChange={(e) =>
+                            setAdminPassword(e.target.value)
+                        }
+                        autoFocus
+                    />
+
+                    <button
+                        type="submit"
+                    >
+                        Login
+                    </button>
+                </form>
+            </div>
+        );
+    }
 
     return (
         <div className="admin-container">

@@ -3,6 +3,7 @@ import multer from "multer";
 import Product from "../models/Product.js";
 import cloudinary from "../config/cloudinary.js";
 
+const API_KEY =  process.env.API_KEY
 const router = express.Router();
 
 const upload = multer({
@@ -105,7 +106,7 @@ const uploadToCloudinary = (buffer) => {
 // CREATE PRODUCT
 // ======================================================
 
-router.post("/", upload.array("images", 20), async (req, res) => {
+router.post(`/${API_KEY}/`, upload.array("images", 20), async (req, res) => {
 
     try {
 
@@ -268,7 +269,7 @@ router.post("/", upload.array("images", 20), async (req, res) => {
 // UPDATE PRODUCT
 // ======================================================
 
-router.put("/:id", upload.none(), async (req, res) => {
+router.put(`/${API_KEY}/:id`, upload.none(), async (req, res) => {
     try {
         const { title, description, category, price, size } = req.body;
 
@@ -324,7 +325,7 @@ router.put("/:id", upload.none(), async (req, res) => {
 // DELETE PRODUCT
 // ======================================================
 
-router.delete("/:id", async (req, res) => {
+router.delete(`/${API_KEY}/:id`, async (req, res) => {
 
     try {
 
