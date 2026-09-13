@@ -1,6 +1,7 @@
 import { PackageOpen } from 'lucide-react';
 import ProductCard from './ProductCard';
 
+
 export default function ProductGrid({
   products,
   wishlistIds,
@@ -9,6 +10,7 @@ export default function ProductGrid({
   onBuyNow,
   onClearFilters
 }) {
+
   return (
     <main className="product-grid-section">
       {/* Product Cards Grid */}
@@ -37,6 +39,7 @@ export default function ProductGrid({
           </button>
         </div>
       )}
+
     </main>
   );
 }

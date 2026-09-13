@@ -1115,6 +1115,7 @@ button {
   display: grid;
   grid-template-columns: 380px 1fr;
   padding: 28px;
+  gap: 20px
 }
 
 .quickview-gallery {
@@ -1757,6 +1758,7 @@ button {
   }
   .quickview-grid {
     grid-template-columns: 1fr;
+    gap: 0px;
   }
   .footer-highlights {
     grid-template-columns: 1fr 1fr;
@@ -1819,6 +1821,10 @@ button {
   .collection-title {
     font-size: 30px;
     letter-spacing: 0.18em;
+  }
+
+  .quickview-grid {
+    gap: 0px;
   }
 }
 /* -----------------------------

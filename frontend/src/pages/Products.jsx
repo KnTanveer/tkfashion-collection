@@ -4,10 +4,13 @@ import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import { getProductByCategory, getProducts } from "../api";
 import Footer from "../components/Footer";
+import FloatingWidgets from "../components/FloatingWidgets"
+import QuickViewModal from "../components/QuickViewModal"
 
 function Products() {
     const [searchParams] = useSearchParams();
     const [products, setProducts] = useState([]);
+    const [quickViewProduct, setQuickViewProduct] = useState(null);
 
     const category = searchParams.get("category");
 
@@ -30,6 +33,7 @@ function Products() {
         fetchProducts();
     }, [category]);
 
+
     return (
         <main>
             <Header />
@@ -41,10 +45,36 @@ function Products() {
                     </h1>
                 </div>
 
-                <ProductGrid products={products} />
+                <ProductGrid
+                    products={products}
+                    onOpenQuickView={(product) => setQuickViewProduct(product)}
+                />
             </div>
 
             <Footer />
+
+            <FloatingWidgets />
+
+            <QuickViewModal
+                product={quickViewProduct}
+                isOpen={Boolean(quickViewProduct)}
+                onClose={() => setQuickViewProduct(null)}
+            />
+
+            {/* <WishlistDrawer
+        isOpen={isWishlistOpen}
+        onClose={() => setIsWishlistOpen(false)}
+        wishlistProducts={wishlistedProducts}
+        onRemoveFromWishlist={handleRemoveFromWishlist}
+      />
+
+      <SearchModal
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+        onSelectProduct={(product) => {
+          setQuickViewProduct(product);
+        }}
+      /> */}
         </main>
     );
 }

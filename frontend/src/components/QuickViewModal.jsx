@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { X, Heart, ChevronLeft, ChevronRight } from "lucide-react";
+import { X, Heart } from "lucide-react";
 import { SiWhatsapp } from "@icons-pack/react-simple-icons";
 import './QuickViewModal.css'
 
@@ -28,9 +28,7 @@ export default function QuickViewModal({
       }))
     ) || [];
 
-  /*
-   * Clean sizes
-   */
+  /* Clean sizes */
   const sizes =
     product?.size
       ?.split(",")
@@ -52,9 +50,7 @@ export default function QuickViewModal({
     setSelectedSize(sizes[0] || "");
   }, [product]);
 
-  /*
-   * Change active image
-   */
+  /* Change active image */
   const changeImage = (index) => {
     if (index < 0 || index >= gallery.length) return;
 
@@ -67,9 +63,7 @@ export default function QuickViewModal({
     }
   };
 
-  /*
-   * Select color
-   */
+  /* Select color */
   const handleColorChange = (color) => {
     setSelectedColor(color);
 
@@ -99,9 +93,7 @@ export default function QuickViewModal({
     }
   };
 
-  /*
-   * Handle swipe / horizontal scroll
-   */
+  /* Handle swipe / horizontal scroll */
   const handleGalleryScroll = () => {
     const galleryElement = galleryRef.current;
 
@@ -132,9 +124,7 @@ export default function QuickViewModal({
     }
   };
 
-  /*
-   * Previous / next buttons
-   */
+  /* Previous / next buttons*/
   const previousImage = () => {
     changeImage(activeImageIndex - 1);
 
@@ -161,9 +151,7 @@ export default function QuickViewModal({
     }
   };
 
-  /*
-   * Add to cart
-   */
+  /* Buy now */
   const handleBuyNow = () => {
     onBuyNow(product);
 

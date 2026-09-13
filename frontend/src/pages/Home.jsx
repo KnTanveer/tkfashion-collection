@@ -15,13 +15,6 @@ function Home() {
     // Navigation & Category State
     const [activeCategory, setActiveCategory] = useState('eid-2026');
 
-    // Filter States
-    const [selectedSizes, setSelectedSizes] = useState([]);
-    const [selectedFabrics, setSelectedFabrics] = useState([]);
-    const [selectedColors, setSelectedColors] = useState([]);
-    const [priceRange, setPriceRange] = useState(6000);
-    const [sortBy, setSortBy] = useState('date-new-old');
-
     // Wishlist States
     const [wishlist, setWishlist] = useState([1, 2, 5]); // Pre-loaded wishlist items for realistic preview
 
@@ -29,15 +22,6 @@ function Home() {
     const [isWishlistOpen, setIsWishlistOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [quickViewProduct, setQuickViewProduct] = useState(null);
-
-    // Toggle Filters
-
-    const handleClearAllFilters = () => {
-        setSelectedSizes([]);
-        setSelectedFabrics([]);
-        setSelectedColors([]);
-        setPriceRange(6000);
-    };
 
     // Wishlist Handlers
     const handleToggleWishlist = (product) => {
@@ -118,7 +102,6 @@ function Home() {
                         wishlistIds={wishlist}
                         onToggleWishlist={handleToggleWishlist}
                         onOpenQuickView={(p) => setQuickViewProduct(p)}
-                        onClearFilters={handleClearAllFilters}
                         loading={productsLoading}
                     />
                 </div>
@@ -128,10 +111,7 @@ function Home() {
             <Footer />
 
             {/* 6. Floating Widgets (Exact match: Wishlist pill, Reviews tab, Chat widget) */}
-            <FloatingWidgets
-                wishlistCount={wishlist.length}
-                onOpenWishlist={() => setIsWishlistOpen(true)}
-            />
+            <FloatingWidgets/>
 
             <WishlistDrawer
                 isOpen={isWishlistOpen}
