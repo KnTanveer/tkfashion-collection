@@ -2,31 +2,6 @@
    Hero Section
 ========================= */
 
-.hero {
-    width: 100%;
-    min-height: calc(100vh - 135px);
-
-    display: flex;
-    align-items: center;
-
-    background: #ffffff;
-    box-sizing: border-box;
-}
-
-.hero-content {
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-
-    /* Scales with viewport */
-    padding: clamp(60px, 7vw, 110px)
-             clamp(30px, 6.4vw, 90px)
-             clamp(50px, 6vw, 90px);
-
-    box-sizing: border-box;
-}
-
-
 /* =========================
    Eyebrow
 ========================= */
@@ -229,13 +204,6 @@
 
 @media (max-width: 900px) {
 
-    .hero-content {
-        padding:
-            clamp(50px, 9vw, 90px)
-            clamp(30px, 5.5vw, 50px)
-            clamp(50px, 7vw, 70px);
-    }
-
     .hero-title {
         font-size: clamp(52px, 9vw, 80px);
     }
@@ -266,10 +234,6 @@
 
     .hero {
         min-height: auto;
-    }
-
-    .hero-content {
-        padding: 60px 24px;
     }
 
     .hero-eyebrow {

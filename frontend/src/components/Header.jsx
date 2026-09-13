@@ -37,7 +37,7 @@ export default function Header({
         {/* Center: Brand Logo */}
         <div className="header-center">
           <a
-            href="#eid-2026"
+            href="/"
             className="brand-logo"
             onClick={(e) => {
               e.preventDefault();

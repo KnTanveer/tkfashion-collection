@@ -5,7 +5,7 @@ export default function WishlistDrawer({
   onClose,
   wishlistProducts,
   onRemoveFromWishlist,
-  onAddToCart
+  onBuyNow
 }) {
   if (!isOpen) return null;
 
@@ -60,7 +60,7 @@ export default function WishlistDrawer({
                     <button
                       className="wishlist-add-to-bag-btn"
                       onClick={() => {
-                        onAddToCart(product, product.sizes[0] || 'L', 1);
+                        onBuyNow(product, product.sizes[0] || 'L', 1);
                         onRemoveFromWishlist(product.id);
                       }}
                     >

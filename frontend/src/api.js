@@ -24,7 +24,7 @@ export async function getProduct(id) {
 }
 
 export async function getProductByCategory(category) {
-    const res = await axios.get(`${URL}/category/${category}`)
+    const res = await axios.get(`${URL}/api/products/category/${category}`)
     
     if (res.status === 200) {
         return res.data

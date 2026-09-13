@@ -52,13 +52,13 @@ export default function Footer() {
           <h4 className="footer-col-title">Connect</h4>
           <ul className="footer-links">
             <div className="connect-row">
-              <SiInstagram size={15} /> <li><a href="#size-guide">Instagram</a></li>
+              <SiInstagram size={15} /> <li><a href="https://www.instagram.com/tk_fashioncollection?stkn=ZDNlZDc0MzIxNw==">Instagram</a></li>
             </div>
             <div className="connect-row">
-              <SiWhatsapp size={15} /> <li><a href="#faqs">Whatsapp Channel</a></li>
+              <SiWhatsapp size={15} /> <li><a href="https://whatsapp.com/channel/0029VbCT8qT65yD4NaYDsd3l">Whatsapp Channel</a></li>
             </div>
             <div className="connect-row">
-              <SiGooglemaps size={15} /> <li><a href="#contact">Vikhroli, Mumbai, Maharashtra</a></li>
+              <SiGooglemaps size={15} /> <li><a href="">Vikhroli, Mumbai, Maharashtra</a></li>
             </div>
           </ul>
         </div>

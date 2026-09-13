@@ -9,7 +9,7 @@ export default function QuickViewModal({
   onClose,
   isWishlisted,
   onToggleWishlist,
-  onAddToCart
+  onBuyNow
 }) {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState("");
@@ -164,8 +164,8 @@ export default function QuickViewModal({
   /*
    * Add to cart
    */
-  const handleAddToCart = () => {
-    onAddToCart(product);
+  const handleBuyNow = () => {
+    onBuyNow(product);
 
     setIsAdded(true);
 
@@ -301,7 +301,7 @@ export default function QuickViewModal({
               </span>
 
               <span className="old-price">
-                ₹{Number(product.price - 300).toLocaleString()}
+                ₹{Number(product.price +800).toLocaleString()}
               </span>
 
             </div>
@@ -434,7 +434,7 @@ export default function QuickViewModal({
                   className={`quickview-add-btn ${
                     isAdded ? "added" : ""
                   }`}
-                  onClick={handleAddToCart}
+                  onClick={handleBuyNow}
                 >
                   Buy now
                   <SiWhatsapp size={18} />

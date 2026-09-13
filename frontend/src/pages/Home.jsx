@@ -9,6 +9,7 @@ import FloatingWidgets from '../components/FloatingWidgets';
 import SearchModal from '../components/SearchModal';
 import Footer from '../components/Footer';
 import Hero from '../components/Hero.jsx';
+import CategorySection from '../components/CategorySection.jsx';
 
 function Home() {
     // Navigation & Category State
@@ -129,9 +130,6 @@ function Home() {
         return productsData.filter((p) => wishlist.includes(p.id));
     }, [productsData, wishlist]);
 
-    // Display count (matching reference screenshot count: e.g. 163 products or dynamic)
-    const displayCount = filteredProducts.length;
-
     return (
         <div className="app-root">
 
@@ -145,14 +143,17 @@ function Home() {
             />
 
             <Hero />
+            <CategorySection products={productsData} />
+
             {/* 4. Main Catalog Section */}
+
             <main className="catalog-page-container">
+                <div className="category-header">
+                    <h2>New Arrivals</h2>
+                </div>
                 <div className="catalog-layout">
                     <ProductGrid
                         products={filteredProducts}
-                        totalDisplayCount={displayCount}
-                        sortBy={sortBy}
-                        onChangeSort={setSortBy}
                         wishlistIds={wishlist}
                         onToggleWishlist={handleToggleWishlist}
                         onOpenQuickView={(p) => setQuickViewProduct(p)}

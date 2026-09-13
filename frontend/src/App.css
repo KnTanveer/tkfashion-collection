@@ -57,6 +57,16 @@ button {
   height: 17px;
 }
 
+
+.hero-content, .category-section, .catalog-page-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 25px 60px;
+
+    box-sizing: border-box;
+}
+
 /* ==========================================================================
    TK FASHION COLLECTION - E-COMMERCE STYLES
    ========================================================================== */
@@ -467,7 +477,6 @@ button {
 .catalog-page-container {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 0 28px 80px 28px;
 }
 
 .catalog-layout {
@@ -478,72 +487,6 @@ button {
 /* -----------------------------
    MAIN PRODUCT GRID SECTION
 ----------------------------- */
-.product-grid-section {
-  flex: 1;
-}
-
-.grid-header-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-}
-
-.products-counter {
-  font-size: 14px;
-  color: #333333;
-  font-weight: 500;
-}
-
-.grid-controls-right {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.mobile-filter-trigger {
-  display: none;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.sort-dropdown-wrapper {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-}
-
-.sort-select-input {
-  appearance: none;
-  -webkit-appearance: none;
-  background: #FFFFFF;
-  border: 1px solid #D5D1CB;
-  border-radius: var(--radius-sm);
-  padding: 8px 34px 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #222222;
-  cursor: pointer;
-  outline: none;
-  font-family: inherit;
-  min-width: 180px;
-}
-
-.sort-select-input:focus {
-  border-color: var(--color-brand-brown);
-}
-
-.sort-select-icon {
-  position: absolute;
-  right: 12px;
-  pointer-events: none;
-  color: #666666;
-}
 
 /* Products Grid 4-Column */
 .products-grid-container {
@@ -1171,7 +1114,6 @@ button {
 .quickview-grid {
   display: grid;
   grid-template-columns: 380px 1fr;
-  gap: 28px;
   padding: 28px;
 }
 
@@ -1780,6 +1722,7 @@ button {
 }
 
 @media (max-width: 900px) {
+
   .header-toast-container {
     display: none;
   }
@@ -1824,11 +1767,13 @@ button {
   .header-container {
     padding: 10px 16px;
   }
+
+  .hero-content, .category-section, .catalog-page-container {
+        padding: 30px 24px;
+    }
+
   .brand-title {
     font-size: 20px;
-  }
-  .catalog-page-container {
-    padding: 0 12px 60px 12px;
   }
   .products-grid-container {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1938,19 +1883,7 @@ button {
   }
 }
 
-@media (max-width: 900px) {
-  .catalog-page-container {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-}
-
 @media (max-width: 600px) {
-  .catalog-page-container {
-    padding-left: 12px;
-    padding-right: 12px;
-  }
-
   .products-grid-container {
     gap: 20px 10px;
   }
