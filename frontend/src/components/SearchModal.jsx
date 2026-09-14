@@ -28,15 +28,15 @@ export default function SearchModal({
 
   const searchResults = searchTerm.trim()
     ? PRODUCTS_DATA.filter((p) => {
-        const query = searchTerm.toLowerCase();
-        return (
-          p.title.toLowerCase().includes(query) ||
-          p.subtitle.toLowerCase().includes(query) ||
-          p.color.toLowerCase().includes(query) ||
-          p.fabric.toLowerCase().includes(query) ||
-          p.description.toLowerCase().includes(query)
-        );
-      })
+      const query = searchTerm.toLowerCase();
+      return (
+        p.title.toLowerCase().includes(query) ||
+        p.subtitle.toLowerCase().includes(query) ||
+        p.color.toLowerCase().includes(query) ||
+        p.fabric.toLowerCase().includes(query) ||
+        p.description.toLowerCase().includes(query)
+      );
+    })
     : [];
 
   return (

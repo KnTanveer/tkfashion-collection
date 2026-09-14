@@ -40,9 +40,9 @@ export default function Footer() {
       <div className="footer-main">
         <div className="footer-col brand-col">
           <span className="footer-logo">TK FASHION</span>
-            <div className="quote-row">
-              <span>“Handpicked, Not Mass-Produced.”</span>
-            </div>
+          <div className="quote-row">
+            <span>“Handpicked, Not Mass-Produced.”</span>
+          </div>
           <p className="footer-desc">
             Handpicked ethnic wear for the modern Indian woman, curated in Mumbai and shipped across India.
           </p>
